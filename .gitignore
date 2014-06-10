@@ -1,0 +1,11 @@
+*.png
+*.root
+*.bat
+*.swp
+log/*
+datfiles/*
+matrix/rootfiles/*
+pdf_bXings_fills/*
+pdf_bXings_runs/
+pdfs/*
+png_rellum/*

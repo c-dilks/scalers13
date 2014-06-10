@@ -1,0 +1,8 @@
+SOUR=analysis_rellum.c
+OBJ=analysis_rellum.o 
+PROG=analysis_rellum.exe
+
+$(PROG) : $(OBJ)
+	gcc -o $(PROG) -Wg -lm $(OBJ) ./myscaler_funs_rel.o 
+$(OBJ): $(SOUR)
+	gcc -c $(SOUR) myscaler_funs_rel.c
