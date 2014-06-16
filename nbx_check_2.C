@@ -35,8 +35,8 @@ void nbx_check_2(const char * filename="counts.root")
     c->SetGrid(1,1);
     h[i]->Draw();
 
-    if(i==0) c->Print("nbx_vs_bxing.pdf(","pdf");
-    else if(i+1==NRUNS) c->Print("nbx_vs_bxing.pdf)","pdf");
-    else c->Print("nbx_vs_bxing.pdf");
+    if(i==0) c->Print("nbx_check/nbx_vs_bxing.pdf(","pdf");
+    else if(i+1==NRUNS) c->Print("nbx_check/nbx_vs_bxing.pdf)","pdf");
+    else c->Print("nbx_check/nbx_vs_bxing.pdf");
   };
 };

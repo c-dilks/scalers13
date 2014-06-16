@@ -14,7 +14,7 @@
 # the chosen bXings to remove are added to the file "kicked" and some
 # diagnostic information is echoed to "kicked_stat"
 
-run_randomizer=0
+run_randomizer=1
 
 # manually removed bunches
 > kicked_manual
@@ -25,7 +25,6 @@ echo 17416 79 >> kicked_manual
 echo 17491 105 >> kicked_manual
 echo 17519 94 >> kicked_manual  # only ~order of magnitude lower
 echo 17519 109 >> kicked_manual # only ~order of magnitude lower
-echo 17520 0 >> kicked_manual   # only ~order of magnitude lower
 echo 17529 97 >> kicked_manual
 echo 17534 112 >> kicked_manual # in abort gap
 echo 17553 73 >> kicked_manual
@@ -34,7 +33,7 @@ echo 17554 14 >> kicked_manual
 echo 17555 61 >> kicked_manual
 echo 17576 94 >> kicked_manual
 
-# after pulsing
+# low proton count in post abortgap bXings
 echo 17512 0 >> kicked_manual
 echo 17512 1 >> kicked_manual
 #echo 17512 2 >> kicked_manual

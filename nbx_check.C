@@ -23,22 +23,26 @@ void nbx_check(const char * filename="sums.root")
 
   tt->Fit("pol1","","",0,4000);
   c1->Close();
-  gStyle->SetOptFit(1);
+  gStyle->SetOptFit(0);
+  gStyle->SetOptStat(0);
 
   TCanvas * ctt = new TCanvas("ctt","ctt",700,500);
   ctt->SetGrid(1,1);
   tt->Draw("colz");
+  ctt->Print("nbx_check/ctt.png","png");
 
   TCanvas * diff_canv = new TCanvas("diff_canv","diff_canv",1300,700);
   diff_canv->Divide(1,2);
   for(Int_t x=1; x<=2; x++) diff_canv->GetPad(x)->SetGrid(1,1);
   diff_canv->cd(1); diff_vs_i->Draw();
   diff_canv->cd(2); diff_vs_fi->Draw();
+  diff_canv->Print("nbx_check/diff_canv.png","png");
 
   TCanvas * quot_canv = new TCanvas("quot_canv","quot_canv",1300,700);
   quot_canv->Divide(1,2);
   for(Int_t x=1; x<=2; x++) quot_canv->GetPad(x)->SetGrid(1,1);
   quot_canv->cd(1); quot_vs_i->Draw();
   quot_canv->cd(2); quot_vs_fi->Draw();
+  quot_canv->Print("nbx_check/quot_canv.png","png");
 };
 

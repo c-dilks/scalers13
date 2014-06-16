@@ -5,9 +5,10 @@ Installation
 ------------
   0. run "install" to make directories and build symlinks; you should
      have this current directory as a subdirectory of root12fms
-  1. download scaler data, and drop it in the directory ./sca2013
+  1. build scaler bit reader by typing "make clean" and then "make"
+  2. download scaler data, and drop it in the directory ./sca2013
      (see instructions under "detailed version")
-  2. download spin pattern data, and drop it in ./spinpat
+  3. download spin pattern data, and drop it in ./spinpat
 
 
 
@@ -195,6 +196,26 @@ Other Useful Scripts
    --> also looks for runs / fills which have tau != t
  - nbx_check_2.C plots the total # bXings vs. bXing no. for each run 
    into a pdf, called nbx_vs_bxing.pdf --> odd structure?
+
+
+Making bXing Distributions
+--------------------------
+- useful for hunting for bad bXings
+
+echo 0 0 0 > kicked
+accumulate
+
+rellum_fills with drawLog=0 and zoomIn=0
+ghost_script_fills
+mv pdf_bXings_fills/*.pdf htmlfiles/pdf_bXings_fills_lin
+
+rellum_fills with drawLog=0 and zoomIn=1
+ghost_script_fills
+mv pdf_bXings_fills/*.pdf htmlfiles/pdf_bXings_fills_lin_zoom
+
+rellum_fills with drawLog=1 and zoomIn=0
+ghost_script_fills
+mv pdf_bXings_fills/*.pdf htmlfiles/pdf_bXings_fills_log
 
 
 Zilong's Scaler Bit Definitions
