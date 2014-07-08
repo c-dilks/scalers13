@@ -14,7 +14,7 @@
 # the chosen bXings to remove are added to the file "kicked" and some
 # diagnostic information is echoed to "kicked_stat"
 
-run_randomizer=1
+run_randomizer=0
 
 # manually removed bunches
 > kicked_manual
