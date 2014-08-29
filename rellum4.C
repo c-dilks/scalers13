@@ -854,6 +854,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
     };
   };
 
+  /*
   if(!strcmp(var,"i"))
   {
     for(Int_t c=0; c<3; c++)
@@ -861,6 +862,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
       R_LL_d[c]->Fit("pol0","Q","",var_l,var_h);
     };
   };
+  */
 
   
   // compute rate dependence
@@ -1721,6 +1723,15 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   //  which is studied as a matrix using SVD)
   TFile * matrix_file;
   char matrix_file_n[128];
+  if(specificRun>0 || specificFill>0)
+  {
+    // set filename
+    if(specificRun>0)
+      sprintf(matrix_file_n,"matrix/rootfiles/matxR%d.root",specificRun);
+    else
+      sprintf(matrix_file_n,"matrix/rootfiles/matxF%d.root",specificFill);
+    matrix_file = new TFile(matrix_file_n,"RECREATE");
+  }
   Double_t raw_cont;
   Double_t acc_cont;
   Double_t mul_cont;
@@ -1734,6 +1745,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   matx->Branch("tbit",&tbit_set,"tbit/I"); // (see definition above)
   matx->Branch("cbit",&cbit_set,"cbit/I");
   matx->Branch("bx",&bx_set,"bx/I");
+  matx->Branch("blue")
   matx->Branch("raw",&raw_cont,"raw/D");
   matx->Branch("acc",&acc_cont,"acc/D");
   matx->Branch("mul",&mul_cont,"mul/D");
@@ -1751,13 +1763,6 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   */
   if(specificRun>0 || specificFill>0)
   {
-    // set filename
-    if(specificRun>0)
-      sprintf(matrix_file_n,"matrix/rootfiles/matxR%d.root",specificRun);
-    else
-      sprintf(matrix_file_n,"matrix/rootfiles/matxF%d.root",specificFill);
-    matrix_file = new TFile(matrix_file_n,"RECREATE");
-
     for(Int_t t=0; t<3; t++)
     {
       for(Int_t c=0; c<3; c++)

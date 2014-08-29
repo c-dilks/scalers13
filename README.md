@@ -235,6 +235,18 @@ Making bXing Distributions
 
 Matrix Subdirectory
 -------------------
+- Running `rellum4.C` with `var="bx"` and with `specificFill>0` XOR `specificRun>0` will
+  produce `matx` tree files, found in `matrix/rootfiles/*.root`
+- the `matx` tree contains scales, corrected scales, and correction factors for each 
+  cbit, tbit, and bXing
+- it's best to produces the `matx` tree files by:
+  - remove root files in `matrix/rootfiles/`
+  - run either `rellum_fills` or `rellum_runs`
+  - execute `hadd matrix/rootfiles/all.root matrix/rootfiles/matx*.root`
+- `DrawMatrix.C` then draws the desired matrix and produces `matrix.root` and `for_mathematica`
+  - `matrix.root` contains the matx tree and the matrix `mat`
+  - `for_mathematica` contains the matrix `mat` in text form for reading with mathematica
+- singular value decomposition (SVD) is then performed using `SVD.nb`
 
 
 
