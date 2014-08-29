@@ -51,9 +51,9 @@ Analysis Procedure
         - reads 32-bit scaler files obtained from hpss (downloaded to `/GreyDisk1/sca2013`)
         - outputs corresponding file in `datfiles` directory with the following columns:
           - bunch crossing (bXing) number
-          - BBC[0-7] (see zilong's scaler bit definitions below)
-          - ZDC[0-7] 
-          - VPD[0-3]
+          - BBC(0-7) (see zilong's scaler bit definitions below)
+          - ZDC(0-7) 
+          - VPD(0-3)
           - total bXings
   - 24-bit scaler reader (for 2012)
     - `read_scalers` in `scalers12` directory executes `sca_read_bin.o` via condor
@@ -61,9 +61,9 @@ Analysis Procedure
       - outputs the read files in `datfiles` directory
       - `datfile` columns
         - bunch crossing (bXing) number
-        - BBC[0-7] (see zilong's scaler bit definitions below)
-        - ZDC[0-7] 
-        - VPD[0-7]
+        - BBC(0-7) (see zilong's scaler bit definitions below)
+        - ZDC(0-7) 
+        - VPD(0-7)
         - total bXings
 
 3. Obtain spin patterns
