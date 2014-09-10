@@ -1,0 +1,31 @@
+#!/bin/bash
+# runs BF.C for multiple cases, one job at a time
+# TO BE UPGRADED TO A CONDOR ROUTINE WHEN I GET CHI2 PROFILES WORKING!!!!
+
+# ZDC{E,W,X} w.r.t VPDX
+root.exe -b -q 'BF.C('\"mul\"',1,0,2,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',1,1,2,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',1,2,2,2,false)'
+
+# VPD{E,W} w.r.t. VPDX
+root.exe -b -q 'BF.C('\"mul\"',2,0,2,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',2,1,2,2,false)'
+
+# ZDC{E,W} w.r.t ZDCX
+root.exe -b -q 'BF.C('\"mul\"',1,0,1,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',1,1,1,2,false)'
+
+# VPD{E,W,X} w.r.t. ZDCX
+root.exe -b -q 'BF.C('\"mul\"',2,0,1,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',2,1,1,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',2,2,1,2,false)'
+
+# ZDC{E,W,X} w.r.t. BBCX
+root.exe -b -q 'BF.C('\"mul\"',1,0,0,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',1,1,0,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',1,2,0,2,false)'
+
+# VPD{E,W,X} w.r.t. BBCX
+root.exe -b -q 'BF.C('\"mul\"',2,0,0,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',2,1,0,2,false)'
+root.exe -b -q 'BF.C('\"mul\"',2,2,0,2,false)'

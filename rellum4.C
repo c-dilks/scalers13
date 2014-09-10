@@ -1745,7 +1745,6 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   matx->Branch("tbit",&tbit_set,"tbit/I"); // (see definition above)
   matx->Branch("cbit",&cbit_set,"cbit/I");
   matx->Branch("bx",&bx_set,"bx/I");
-  matx->Branch("blue")
   matx->Branch("raw",&raw_cont,"raw/D");
   matx->Branch("acc",&acc_cont,"acc/D");
   matx->Branch("mul",&mul_cont,"mul/D");

@@ -1,0 +1,12 @@
+#!/bin/bash
+# runs BF.C for multiple cases, one job at a time
+# TO BE UPGRADED TO A CONDOR ROUTINE WHEN I GET CHI2 PROFILES WORKING!!!!
+
+# ZDC{E,W,X} w.r.t VPDX
+for i in {13,14,23,24,31,32,41,42}; do
+  echo $i
+  root.exe -b -q 'BF.C('\"mul\"',1,0,2,2,false,'$i')'
+  root.exe -b -q 'BF.C('\"mul\"',1,1,2,2,false,'$i')'
+  root.exe -b -q 'BF.C('\"mul\"',1,2,2,2,false,'$i')'
+done
+
