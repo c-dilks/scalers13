@@ -80,7 +80,8 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
 
 
   // set plot colours
-  Color_t colours[NPAT] = {kBlack,kOrange,kRed,kMagenta,kBlue,kCyan+1,kGreen+1,kYellow+2,kViolet-6};
+  //Color_t colours[NPAT] = {kBlack,kOrange,kRed,kMagenta,kBlue,kCyan+1,kGreen+1,kYellow+2,kViolet-6}; // individual colours
+  Color_t colours[NPAT] = {kBlack,kRed,kMagenta,kBlue,kGreen+1,kRed,kBlue,kMagenta,kGreen+1}; // partner colours
   for(Int_t pp=0; pp<NPAT; pp++)
   {
     for(Int_t aa=1; aa<NASY; aa++)
@@ -214,7 +215,10 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
 
 
   // write canvases to root file
-  TFile * outfile = new TFile("coloured_canvases.root","RECREATE");
+  TFile * outfile;
+  char outfile_n[64];
+  sprintf(outfile_n,"colour.%s.%s.root",numerDet,denomDet);
+  outfile = new TFile(outfile_n,"RECREATE");
   for(Int_t cc=0; cc<3; cc++) sigma_id_canv[cc]->Write(sigma_id_canv_n[cc]);
   for(Int_t cc=0; cc<3; cc++) sigma_r_canv[cc]->Write(sigma_r_canv_n[cc]);
   for(Int_t cc=0; cc<3; cc++) sigma_h_canv[cc]->Write(sigma_h_canv_n[cc]);
@@ -222,4 +226,5 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
   for(Int_t cc=0; cc<3; cc++) cons_canv[cc]->Write(cons_canv_n[cc]);
   for(Int_t cc=0; cc<3; cc++) epsi_canv[cc]->Write(epsi_canv_n[cc]);
   leg_canv->Write("legend");
+  printf("%s written\n",outfile_n);
 };

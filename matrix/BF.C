@@ -96,15 +96,16 @@ void BF(const char * var="mul",
   // define ratio array "rat" and corresponding uncertainties "unc"
   // -- from documentation:  r^i = rat;  sigma_{r^i} = unc
   Int_t imax_tmp = matx->GetMaximum("i");
-  const Int_t imax = imax_tmp;
-  Double_t rat[imax][120]; // rat = num / den
-  Double_t den[imax][120]; // denominator
-  Double_t num[imax][120]; // numerator
-  Double_t unc[imax][120]; // variances of rat
+  const Int_t IMAX = imax_tmp; // max number of runs
+  const Int_t NB = 120; // max number of bunches
+  Double_t rat[IMAX][NB]; // rat = num / den
+  Double_t den[IMAX][NB]; // denominator
+  Double_t num[IMAX][NB]; // numerator
+  Double_t unc[IMAX][NB]; // variances of rat
   printf("computing r^i for each run and bXing...\n");
-  for(Int_t ii=0; ii<imax; ii++)
+  for(Int_t ii=0; ii<IMAX; ii++)
   {
-    for(Int_t bb=0; bb<120; bb++)
+    for(Int_t bb=0; bb<NB; bb++)
     {
       num[ii][bb]=0;
       den[ii][bb]=0;
@@ -116,9 +117,9 @@ void BF(const char * var="mul",
     if(tbit==numer_tbit && cbit==numer_cbit) num[i-1][bx-1] = val;
     if(tbit==denom_tbit && cbit==denom_cbit) den[i-1][bx-1] = val;
   };
-  for(Int_t ii=0; ii<imax; ii++)
+  for(Int_t ii=0; ii<IMAX; ii++)
   {
-    for(Int_t bb=0; bb<120; bb++)
+    for(Int_t bb=0; bb<NB; bb++)
     {
       if(num[ii][bb]>0 && den[ii][bb]>0) 
       {
@@ -131,19 +132,19 @@ void BF(const char * var="mul",
 
   
   // rat vs. bXing
-  TH1D * rat_v_bx[imax];
+  TH1D * rat_v_bx[IMAX];
   TObjArray * rat_v_bx_arr = new TObjArray();
-  char rat_v_bx_n[imax][32];
-  char rat_v_bx_t[imax][128];
-  for(Int_t ii=0; ii<imax; ii++)
+  char rat_v_bx_n[IMAX][32];
+  char rat_v_bx_t[IMAX][128];
+  for(Int_t ii=0; ii<IMAX; ii++)
   {
     sprintf(rat_v_bx_n[ii],"rat_v_bx_run%d",ii);
     sprintf(rat_v_bx_t[ii],"%s vs. bXing for i=%d",detstr,ii);
-    rat_v_bx[ii] = new TH1D(rat_v_bx_n[ii],rat_v_bx_t[ii],120,0,120);
-    for(Int_t bb=0; bb<120; bb++)
+    rat_v_bx[ii] = new TH1D(rat_v_bx_n[ii],rat_v_bx_t[ii],NB,0,NB);
+    for(Int_t bb=0; bb<NB; bb++)
     {
-      rat_v_bx[ii]->SetBinContent(bb-1,rat[ii][bb]);
-      rat_v_bx[ii]->SetBinError(bb-1,unc[ii][bb]);
+      rat_v_bx[ii]->SetBinContent(bb+1,rat[ii][bb]);
+      rat_v_bx[ii]->SetBinError(bb+1,unc[ii][bb]);
     };
     rat_v_bx_arr->AddLast(rat_v_bx[ii]);
   };
@@ -152,9 +153,9 @@ void BF(const char * var="mul",
   // set counts branch addresses and fill blue/yell/kicked arrays
   Int_t i_c,bx_c,blue,yell;
   Bool_t kicked;
-  Int_t blue_arr[imax][120]; // spin arrays
-  Int_t yell_arr[imax][120];
-  Bool_t kicked_arr[imax][120];
+  Int_t blue_arr[IMAX][NB]; // spin arrays
+  Int_t yell_arr[IMAX][NB];
+  Bool_t kicked_arr[IMAX][NB];
   counts->SetBranchAddress("i",&i_c);
   counts->SetBranchAddress("bx",&bx_c);
   counts->SetBranchAddress("blue",&blue);
@@ -171,7 +172,7 @@ void BF(const char * var="mul",
 
   // set sums tree branch address and fill pattern number arrays
   Int_t i_s,pattern;
-  Int_t pattern_arr[imax];
+  Int_t pattern_arr[IMAX];
   sums_tr->SetBranchAddress("i",&i_s);
   sums_tr->SetBranchAddress("pattern",&pattern);
   for(Int_t ii=0; ii<sums_tr->GetEntries(); ii++)
@@ -187,11 +188,11 @@ void BF(const char * var="mul",
   //
   // -- see equ/bunch_fitting/H_table.pdf for H_a definitions
   //
-  Int_t H[imax][10][120]; // [run] [asym] [bx]
+  Int_t H[IMAX][10][NB]; // [run] [asym] [bx]
   Int_t hb,hy;
-  for(Int_t ii=0; ii<imax; ii++)
+  for(Int_t ii=0; ii<IMAX; ii++)
   {
-    for(Int_t bb=0; bb<120; bb++)
+    for(Int_t bb=0; bb<NB; bb++)
     {
       hb = blue_arr[ii][bb];
       hy = yell_arr[ii][bb];
@@ -213,21 +214,21 @@ void BF(const char * var="mul",
 
 
   // H vs. bXing
-  TH1D * H_v_bx[10][imax]; // [asym] [run index]
+  TH1D * H_v_bx[10][IMAX]; // [asym] [run index]
   TObjArray * H_v_bx_arr[10];
-  char H_v_bx_n[10][imax][32];
-  char H_v_bx_t[10][imax][128];
+  char H_v_bx_n[10][IMAX][32];
+  char H_v_bx_t[10][IMAX][128];
   for(Int_t aa=1; aa<10; aa++)
   {
     H_v_bx_arr[aa] = new TObjArray();
-    for(Int_t ii=0; ii<imax; ii++)
+    for(Int_t ii=0; ii<IMAX; ii++)
     {
       sprintf(H_v_bx_n[aa][ii],"H%d_v_bx_%d",aa,ii);
       sprintf(H_v_bx_t[aa][ii],"H%d vs. bXing for i=%d",aa,ii);
-      H_v_bx[aa][ii] = new TH1D(H_v_bx_n[aa][ii],H_v_bx_t[aa][ii],120,0,120);
-      for(Int_t bb=0; bb<120; bb++)
+      H_v_bx[aa][ii] = new TH1D(H_v_bx_n[aa][ii],H_v_bx_t[aa][ii],NB,0,NB);
+      for(Int_t bb=0; bb<NB; bb++)
       {
-        H_v_bx[aa][ii]->SetBinContent(bb-1,H[ii][aa][bb]);
+        H_v_bx[aa][ii]->SetBinContent(bb+1,H[ii][aa][bb]);
       };
       H_v_bx_arr[aa]->AddLast(H_v_bx[aa][ii]);
     };
@@ -235,13 +236,13 @@ void BF(const char * var="mul",
 
 
   // fill Hsum arrays (sum of H over bXings for each run & asymmetry number)
-  Int_t Hsum[10][imax]; // [asym] [run]
+  Int_t Hsum[10][IMAX]; // [asym] [run]
   for(Int_t aa=1; aa<10; aa++)
   {
-    for(Int_t ii=0; ii<imax; ii++)
+    for(Int_t ii=0; ii<IMAX; ii++)
     {
       Hsum[aa][ii] = 0;
-      for(Int_t bb=0; bb<120; bb++)
+      for(Int_t bb=0; bb<NB; bb++)
       {
         if(kicked_arr[ii][bb]==0) Hsum[aa][ii] += H[ii][aa][bb];
       };
@@ -257,23 +258,23 @@ void BF(const char * var="mul",
   {
     sprintf(Hsum_dist_n[aa],"Hsum_a%d",aa);
     sprintf(Hsum_dist_t[aa],"Sum of H_{%d} over filled bXings vs. run index",aa);
-    Hsum_dist[aa] = new TH1D(Hsum_dist_n[aa],Hsum_dist_t[aa],imax,1,imax+1);
-    for(Int_t ii=0; ii<imax; ii++) Hsum_dist[aa]->SetBinContent(ii+1,Hsum[aa][ii]);
+    Hsum_dist[aa] = new TH1D(Hsum_dist_n[aa],Hsum_dist_t[aa],IMAX,1,IMAX+1);
+    for(Int_t ii=0; ii<IMAX; ii++) Hsum_dist[aa]->SetBinContent(ii+1,Hsum[aa][ii]);
   };
 
 
   // compute sigma functions for each run, summing over bXings
   // -- if specificPattern!=0, only let sigma function be nonzero for fills with pattern
   //    no. equal to specificPattern
-  Double_t sigma_id[10][imax]; // [asym] [run]
-  Double_t sigma_r[10][imax];
-  Double_t sigma_h[10][imax];
-  Double_t sigma_hr[10][imax];
+  Double_t sigma_id[10][IMAX]; // [asym] [run]
+  Double_t sigma_r[10][IMAX];
+  Double_t sigma_h[10][IMAX];
+  Double_t sigma_hr[10][IMAX];
   printf("computing sigma functions...\n");
   if(specificPattern!=0) printf(" [+] specificPattern=%d\n",specificPattern);
   for(Int_t aa=1; aa<10; aa++)
   {
-    for(Int_t ii=0; ii<imax; ii++)
+    for(Int_t ii=0; ii<IMAX; ii++)
     {
       sigma_id[aa][ii]=0;
       sigma_r[aa][ii]=0;
@@ -281,7 +282,7 @@ void BF(const char * var="mul",
       sigma_hr[aa][ii]=0;
       if(specificPattern==0 || pattern_arr[ii]==specificPattern)
       {
-        for(Int_t bb=0; bb<120; bb++)
+        for(Int_t bb=0; bb<NB; bb++)
         {
           if(kicked_arr[ii][bb]==0 && H[ii][aa][bb]!=0 && unc[ii][bb]>0)
           {
@@ -307,7 +308,7 @@ void BF(const char * var="mul",
     sigma_sum_r[aa] = 0;
     sigma_sum_h[aa] = 0;
     sigma_sum_hr[aa] = 0;
-    for(Int_t ii=0; ii<imax; ii++)
+    for(Int_t ii=0; ii<IMAX; ii++)
     {
       sigma_sum_id[aa] += sigma_id[aa][ii];
       sigma_sum_r[aa] += sigma_r[aa][ii];
@@ -340,11 +341,11 @@ void BF(const char * var="mul",
     sprintf(sigma_r_dist_t[aa],"#Sigma(r) vs. run // asym=%d // r=%s",aa,detstr);
     sprintf(sigma_h_dist_t[aa],"#Sigma(H) vs. run // asym==%d // r=%s",aa,detstr);
     sprintf(sigma_hr_dist_t[aa],"#Sigma(Hr) vs. run // asym==%d // r=%s",aa,detstr);
-    sigma_id_dist[aa] = new TH1D(sigma_id_dist_n[aa],sigma_id_dist_t[aa],imax,1,imax+1);
-    sigma_r_dist[aa] = new TH1D(sigma_r_dist_n[aa],sigma_r_dist_t[aa],imax,1,imax+1);
-    sigma_h_dist[aa] = new TH1D(sigma_h_dist_n[aa],sigma_h_dist_t[aa],imax,1,imax+1);
-    sigma_hr_dist[aa] = new TH1D(sigma_hr_dist_n[aa],sigma_hr_dist_t[aa],imax,1,imax+1);
-    for(Int_t ii=0; ii<imax; ii++)
+    sigma_id_dist[aa] = new TH1D(sigma_id_dist_n[aa],sigma_id_dist_t[aa],IMAX,1,IMAX+1);
+    sigma_r_dist[aa] = new TH1D(sigma_r_dist_n[aa],sigma_r_dist_t[aa],IMAX,1,IMAX+1);
+    sigma_h_dist[aa] = new TH1D(sigma_h_dist_n[aa],sigma_h_dist_t[aa],IMAX,1,IMAX+1);
+    sigma_hr_dist[aa] = new TH1D(sigma_hr_dist_n[aa],sigma_hr_dist_t[aa],IMAX,1,IMAX+1);
+    for(Int_t ii=0; ii<IMAX; ii++)
     {
       sigma_id_dist[aa]->SetBinContent(ii+1,sigma_id[aa][ii]);
       sigma_r_dist[aa]->SetBinContent(ii+1,sigma_r[aa][ii]);
@@ -370,9 +371,9 @@ void BF(const char * var="mul",
     sprintf(epsi_dist_n[aa],"epsi_a%d_v_run",aa);
     sprintf(cons_dist_t[aa],"c_{%d} vs. run index // r=%s",aa,detstr);
     sprintf(epsi_dist_t[aa],"#varepsilon_{%d} vs. run index // r=%s",aa,detstr);
-    cons_dist[aa] = new TH1D(cons_dist_n[aa],cons_dist_t[aa],imax,1,imax+1);
-    epsi_dist[aa] = new TH1D(epsi_dist_n[aa],epsi_dist_t[aa],imax,1,imax+1);
-    for(Int_t ii=0; ii<imax; ii++)
+    cons_dist[aa] = new TH1D(cons_dist_n[aa],cons_dist_t[aa],IMAX,1,IMAX+1);
+    epsi_dist[aa] = new TH1D(epsi_dist_n[aa],epsi_dist_t[aa],IMAX,1,IMAX+1);
+    for(Int_t ii=0; ii<IMAX; ii++)
     {
       if(specificPattern==0 || pattern_arr[ii]==specificPattern)
       {
@@ -393,16 +394,16 @@ void BF(const char * var="mul",
   Double_t cons_err,epsi_err;
   for(Int_t aa=1; aa<10; aa++)
   {
-    for(Int_t ii=0; ii<imax; ii++)
+    for(Int_t ii=0; ii<IMAX; ii++)
     {
       cons_err = 0; 
       epsi_err = 0;
       if(specificPattern==0 || pattern_arr[ii]==specificPattern)
       {
         // first sum the squares...
-        for(Int_t bb=0; bb<120; bb++)
+        for(Int_t bb=0; bb<NB; bb++)
         {
-          if(H[ii][aa][bb]!=0 && unc[ii][bb]>0)
+          if(kicked_arr[ii][bb]==0 && H[ii][aa][bb]!=0 && unc[ii][bb]>0)
           {
             epsi_err += pow(1/unc[ii][bb] * 
               ( ( pow(sigma_h[aa][ii],2) - pow(sigma_id[aa][ii],2) ) * 
@@ -437,8 +438,8 @@ void BF(const char * var="mul",
     // don't do the constant fits if specificPattern!=0
     if(specificPattern==0)
     {
-      cons_dist[aa]->Fit("pol0","Q","",1,imax+1);
-      epsi_dist[aa]->Fit("pol0","Q","",1,imax+1);
+      cons_dist[aa]->Fit("pol0","Q","",1,IMAX+1);
+      epsi_dist[aa]->Fit("pol0","Q","",1,IMAX+1);
       //optimal_cons[aa] = cons_dist[aa]->GetFunction("pol0")->GetParameter(0);
       //optimal_epsi[aa] = epsi_dist[aa]->GetFunction("pol0")->GetParameter(0);
       error_cons[aa] = cons_dist[aa]->GetFunction("pol0")->GetParError(0);
@@ -462,7 +463,7 @@ void BF(const char * var="mul",
   Double_t chi2_min[10];
   for(Int_t aa=1; aa<10; aa++)
   {
-    chi2_min[aa] = CalcChi2(aa,optimal_cons[aa],optimal_epsi[aa],imax,H,rat,unc);
+    chi2_min[aa] = CalcChi2(aa,optimal_cons[aa],optimal_epsi[aa],IMAX,H,rat,unc);
   };
   Double_t ub_cons[10];  // upper / lower bounds for binary search 
   Double_t ub_epsi[10];
@@ -493,7 +494,7 @@ void BF(const char * var="mul",
         chi2_check = CalcChi2(aa,
                               optimal_cons[aa] + NN * error_cons[aa],
                               optimal_epsi[aa],
-                              imax,H,rat,unc);
+                              IMAX,H,rat,unc);
       };
       printf("[+] chi2_check-chi2_min = %f, max_delta = %f\n",
         chi2_check-chi2_min[aa],max_delta);
@@ -504,7 +505,7 @@ void BF(const char * var="mul",
       while(fabs(max_delta - (chi2_check - chi2_min[aa])) >= max_delta_pad)
       {
         mp = lb_cons[aa] + (ub_cons[aa] - lb_cons[aa])/2;
-        chi2_check = CalcChi2(aa,mp,optimal_epsi[aa],imax,H,rat,unc);
+        chi2_check = CalcChi2(aa,mp,optimal_epsi[aa],IMAX,H,rat,unc);
         printf(" --> | max_delta - (chi2_check-chi2_min) | = %f\n",
           fabs(max_delta - (chi2_check-chi2_min[aa])));
         if(chi2_check - chi2_min[aa] > max_delta) ub_cons[aa] = mp;
@@ -524,7 +525,7 @@ void BF(const char * var="mul",
         chi2_check = CalcChi2(aa,
                               optimal_cons[aa],
                               optimal_epsi[aa] + NN * error_epsi[aa],
-                              imax,H,rat,unc);
+                              IMAX,H,rat,unc);
       };
       ub_epsi[aa] = optimal_epsi[aa] + NN * error_epsi[aa];
 
@@ -533,7 +534,7 @@ void BF(const char * var="mul",
       while(fabs(max_delta - (chi2_check - chi2_min[aa])) >= max_delta_pad)
       {
         mp = lb_epsi[aa] + (ub_epsi[aa] - lb_epsi[aa])/2;
-        chi2_check = CalcChi2(aa,optimal_cons[aa],mp,imax,H,rat,unc);
+        chi2_check = CalcChi2(aa,optimal_cons[aa],mp,IMAX,H,rat,unc);
         printf(" --> | max_delta - (chi2_check-chi2_min) | = %f\n",
           fabs(max_delta - (chi2_check-chi2_min[aa])));
         if(chi2_check - chi2_min[aa] > max_delta) ub_epsi[aa] = mp;
@@ -596,7 +597,7 @@ void BF(const char * var="mul",
       for(Int_t bin=1; bin<=NC; bin++)
       {
         cx = chi2_vs_cons[aa]->GetBinCenter(bin);
-        chi2_eval = CalcChi2(aa,cx,ex,imax,H,rat,unc);
+        chi2_eval = CalcChi2(aa,cx,ex,IMAX,H,rat,unc);
         printf(" -- chi2_eval-chi2_min=%f\n",chi2_eval-chi2_min[aa]);
         chi2_vs_cons[aa]->SetBinContent(bin,chi2_eval);
       };
@@ -607,7 +608,7 @@ void BF(const char * var="mul",
       for(Int_t bin=1; bin<=NC; bin++)
       {
         ex = chi2_vs_epsi[aa]->GetBinCenter(bin);
-        chi2_eval = CalcChi2(aa,cx,ex,imax,H,rat,unc);
+        chi2_eval = CalcChi2(aa,cx,ex,IMAX,H,rat,unc);
         printf(" -- chi2_eval-chi2_min=%f\n",chi2_eval-chi2_min[aa]);
         chi2_vs_epsi[aa]->SetBinContent(bin,chi2_eval);
       };
@@ -620,7 +621,7 @@ void BF(const char * var="mul",
         {
           ex = chi2_vs_both[aa]->GetXaxis()->GetBinCenter(binx);
           cx = chi2_vs_both[aa]->GetYaxis()->GetBinCenter(biny);
-          chi2_eval = CalcChi2(aa,cx,ex,imax,H,rat,unc);
+          chi2_eval = CalcChi2(aa,cx,ex,IMAX,H,rat,unc);
           printf(" -- chi2_eval-chi2_min=%f\n",chi2_eval-chi2_min[aa]);
           chi2_vs_both[aa]->SetBinContent(binx,biny,chi2_eval);
         };
