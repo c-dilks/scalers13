@@ -138,9 +138,29 @@ for file in $(ls spinpat/*.spin); do
     grep_result=$(grep -w "$fill $bx" kicked_manual)
 
 # -- BXING SELECTOR --
-    if [ $bx -lt 72 -o $bx -gt 103 ]; then
-      grep_result="$fill $bx"
-    fi
+# 24 bXings 
+    #if [ $bx -lt 72 -o $bx -gt 103 ]; then
+      #grep_result="$fill $bx"
+    #fi
+# remove 8 after aborts & 8 after 69&70
+    #for ii in {{0..7},{31..47},{69..78},{111..119}}; do
+      #if [ $bx -eq $ii ]; then
+        #grep_result="$fill $bx"
+      #fi
+    #done
+# remove 8 before aborts & 8 after 69&70
+    #for ii in {{23..39},{61..70},{103..119}}; do
+      #if [ $bx -eq $ii ]; then
+        #grep_result="$fill $bx"
+      #fi
+    #done
+# remove 2 after aborts & 8 after 69&70
+    for ii in {{0..1},{31..41},{69..72},{111..119}}; do
+      if [ $bx -eq $ii ]; then
+        grep_result="$fill $bx"
+      fi
+    done
+
 # --------------------
     
     spinbit=-1

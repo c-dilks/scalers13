@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# -- D E P R E C A T E D --
+#
 # runs BF.C for multiple cases, one job at a time
 # TO BE UPGRADED TO A CONDOR ROUTINE WHEN I GET CHI2 PROFILES WORKING!!!!
 
