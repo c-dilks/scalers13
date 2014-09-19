@@ -237,17 +237,29 @@ Matrix Subdirectory
 -------------------
 - Running `rellum4.C` with `var="bx"` and with `specificFill>0` XOR `specificRun>0` will
   produce `matx` tree files, found in `matrix/rootfiles/*.root`
-- the `matx` tree contains scales, corrected scales, and correction factors for each 
-  cbit, tbit, and bXing
-- it's best to produces the `matx` tree files by:
-  - remove root files in `matrix/rootfiles/`
-  - run either `rellum_fills` or `rellum_runs`
-  - execute `hadd matrix/rootfiles/all.root matrix/rootfiles/matx*.root`
-- `DrawMatrix.C` then draws the desired matrix and produces `matrix.root` and `for_mathematica`
+  - this can be done for each fill or run using `rellum_fills` or `rellum_runs`
+  - the `matx` tree contains scales, corrected scales, and correction factors for each 
+    cbit, tbit, and bXing
+- execute `hadd matrix/rootfiles/all.root matrix/rootfiles/matx*.root` to merge the matx trees
+- `DrawMatrix.C` draws the desired matrix and produces `matrix.root` and `for_mathematica`
   - `matrix.root` contains the matx tree and the matrix `mat`
   - `for_mathematica` contains the matrix `mat` in text form for reading with mathematica
-- singular value decomposition (SVD) is then performed using `SVD.nb`
-
+  - singular value decomposition (SVD) is then performed using `SVD.nb`
+- bunch fitting
+  - the main code for bunch fitting is `BF.C`, which requires `rootfiles/all.root`, 
+    `../counts.root`, and `../sums.root`
+  - you need to specify the ratio of scalers to bunch fit over
+    - numerator tbit and cbit (see `rellum4.C` for definitions of tbit and cbit)
+    - denominator tbit and cbit
+    - evaluateChiSquare = true will try to draw Chi2 profiles (not working well yet...)
+    - specificPattern != 0 will only consider the specified spin pattern
+  - it's best to just use `RunPatterns`, which runs `BF.C` under various interesting
+    conditions, for all spin patterns; the following files are produced:
+    - `fit_result.[num].[den].root`: bunch fit results for all spin patterns, where the fit
+      is done to `r^i=num/den`
+    - `pats/fit_result.[num].[den].pat[pat].root`: bunch fit results for spin pattern `pat`
+    - `colour.[num].[den].root`: bunch fit results, with colour code according to spin 
+      patterns (see the TCanvas `legend` in the ROOT file)
 
 
 

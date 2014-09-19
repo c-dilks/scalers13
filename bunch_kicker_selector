@@ -154,8 +154,38 @@ for file in $(ls spinpat/*.spin); do
         #grep_result="$fill $bx"
       #fi
     #done
-# remove 2 after aborts & 8 after 69&70
-    for ii in {{0..1},{31..41},{69..72},{111..119}}; do
+# remove 2 after aborts & 2 after 69&70
+    #for ii in {{0..1},{31..41},{69..72},{111..119}}; do
+      #if [ $bx -eq $ii ]; then
+        #grep_result="$fill $bx"
+      #fi
+    #done
+# remove 2 after aborts (don't remove any after 69 & 70)
+    #for ii in {{0..1},{31..41},{111..119}}; do
+      #if [ $bx -eq $ii ]; then
+        #grep_result="$fill $bx"
+      #fi
+    #done
+# remove 1 after aborts (don't remove any after 69 & 70)
+    #for ii in {0,{31..40},{111..119}}; do
+      #if [ $bx -eq $ii ]; then
+        #grep_result="$fill $bx"
+      #fi
+    #done
+# remove 3 after aborts (don't remove any after 69 & 70)
+    #for ii in {{0..2},{31..42},{111..119}}; do
+      #if [ $bx -eq $ii ]; then
+        #grep_result="$fill $bx"
+      #fi
+    #done
+# remove 4 after aborts (don't remove any after 69 & 70)
+    #for ii in {{0..3},{31..43},{111..119}}; do
+      #if [ $bx -eq $ii ]; then
+        #grep_result="$fill $bx"
+      #fi
+    #done
+# remove 5 after aborts (don't remove any after 69 & 70)
+    for ii in {{0..4},{31..44},{111..119}}; do
       if [ $bx -eq $ii ]; then
         grep_result="$fill $bx"
       fi
