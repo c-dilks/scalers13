@@ -11,12 +11,14 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
   //     represent the "full" plots (where "full" = all patterns)
   const Int_t NPAT=9;
   Int_t pat[NPAT] = {0,13,14,23,24,31,32,41,42};
-  char pat_str[NPAT][64];
+  char pat_str[NPAT][256];
   char beampat[5][20];
   strcpy(beampat[1],"+ + - - + + - -");
   strcpy(beampat[2],"- - + + - - + +");
   strcpy(beampat[3],"+ + - - - - + +");
   strcpy(beampat[4],"- - + + + + - -");
+  // old way
+  /*
   sprintf(pat_str[1],"B[%s]  Y[%s]  (%d)",beampat[1],beampat[3],pat[1]); 
   sprintf(pat_str[2],"B[%s]  Y[%s]  (%d)",beampat[1],beampat[4],pat[2]); 
   sprintf(pat_str[3],"B[%s]  Y[%s]  (%d)",beampat[2],beampat[3],pat[3]); 
@@ -25,6 +27,16 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
   sprintf(pat_str[6],"B[%s]  Y[%s]  (%d)",beampat[3],beampat[2],pat[6]); 
   sprintf(pat_str[7],"B[%s]  Y[%s]  (%d)",beampat[4],beampat[1],pat[7]); 
   sprintf(pat_str[8],"B[%s]  Y[%s]  (%d)",beampat[4],beampat[2],pat[8]); 
+  */
+  // new way (just has more details
+  sprintf(pat_str[1],"B_{%d}[%s]  Y_{%d}[%s]  (S S S S O O O O)",pat[1]/10,beampat[1],pat[1]%10,beampat[3]); 
+  sprintf(pat_str[2],"B_{%d}[%s]  Y_{%d}[%s]  (O O O O S S S S)",pat[2]/10,beampat[1],pat[2]%10,beampat[4]); 
+  sprintf(pat_str[3],"B_{%d}[%s]  Y_{%d}[%s]  (O O O O S S S S)",pat[3]/10,beampat[2],pat[3]%10,beampat[3]); 
+  sprintf(pat_str[4],"B_{%d}[%s]  Y_{%d}[%s]  (S S S S O O O O)",pat[4]/10,beampat[2],pat[4]%10,beampat[4]); 
+  sprintf(pat_str[5],"B_{%d}[%s]  Y_{%d}[%s]  (S S S S O O O O)",pat[5]/10,beampat[3],pat[5]%10,beampat[1]); 
+  sprintf(pat_str[6],"B_{%d}[%s]  Y_{%d}[%s]  (O O O O S S S S)",pat[6]/10,beampat[3],pat[6]%10,beampat[2]); 
+  sprintf(pat_str[7],"B_{%d}[%s]  Y_{%d}[%s]  (O O O O S S S S)",pat[7]/10,beampat[4],pat[7]%10,beampat[1]); 
+  sprintf(pat_str[8],"B_{%d}[%s]  Y_{%d}[%s]  (S S S S O O O O)",pat[8]/10,beampat[4],pat[8]%10,beampat[2]); 
 
   const Int_t NASY=10;
 
@@ -69,6 +81,20 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
       cons_dist[pp][aa] = (TH1D*) infile[pp]->Get(cons_dist_n[pp][aa]);
       epsi_dist[pp][aa] = (TH1D*) infile[pp]->Get(epsi_dist_n[pp][aa]);
 
+      sigma_id_dist[pp][aa]->GetXaxis()->SetLabelSize(0.08);
+      sigma_r_dist[pp][aa]->GetXaxis()->SetLabelSize(0.08);
+      sigma_h_dist[pp][aa]->GetXaxis()->SetLabelSize(0.08);
+      sigma_hr_dist[pp][aa]->GetXaxis()->SetLabelSize(0.08);
+      cons_dist[pp][aa]->GetXaxis()->SetLabelSize(0.08);
+      epsi_dist[pp][aa]->GetXaxis()->SetLabelSize(0.08);
+
+      sigma_id_dist[pp][aa]->GetYaxis()->SetLabelSize(0.08);
+      sigma_r_dist[pp][aa]->GetYaxis()->SetLabelSize(0.08);
+      sigma_h_dist[pp][aa]->GetYaxis()->SetLabelSize(0.08);
+      sigma_hr_dist[pp][aa]->GetYaxis()->SetLabelSize(0.08);
+      cons_dist[pp][aa]->GetYaxis()->SetLabelSize(0.08);
+      epsi_dist[pp][aa]->GetYaxis()->SetLabelSize(0.08);
+
       printf("sigma_id_dist[%d][%d] @ %p\n",pp,aa,(void*)sigma_id_dist[pp][aa]);
       printf("sigma_r_dist[%d][%d] @ %p\n",pp,aa,(void*)sigma_r_dist[pp][aa]);
       printf("sigma_h_dist[%d][%d] @ %p\n",pp,aa,(void*)sigma_h_dist[pp][aa]);
@@ -80,8 +106,8 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
 
 
   // set plot colours
-  Color_t colours[NPAT] = {kBlack,kOrange,kRed,kMagenta,kBlue,kCyan+1,kGreen+1,kYellow+2,kViolet-6}; // individual colours
-  //Color_t colours[NPAT] = {kBlack,kRed,kMagenta,kBlue,kGreen+1,kRed,kBlue,kMagenta,kGreen+1}; // partner colours
+  //Color_t colours[NPAT] = {kBlack,kOrange,kRed,kMagenta,kBlue,kCyan+1,kGreen+1,kYellow+2,kViolet-6}; // individual colours
+  Color_t colours[NPAT] = {kBlack,kRed,kMagenta,kBlue,kGreen+1,kRed,kBlue,kMagenta,kGreen+1}; // partner colours
   for(Int_t pp=0; pp<NPAT; pp++)
   {
     for(Int_t aa=1; aa<NASY; aa++)
@@ -205,7 +231,7 @@ void ColourPatternPlots(const char * numerDet="zdce", const char * denomDet="vpd
 
   
   // make legend canvas
-  TCanvas * leg_canv = new TCanvas("leg_canv","leg_canv",500,500);
+  TCanvas * leg_canv = new TCanvas("leg_canv","leg_canv",1000,500);
   TLegend * leg = new TLegend(0,0,1,1);
   for(Int_t pp=1; pp<NPAT; pp++) leg->AddEntry(epsi_dist[pp][1],pat_str[pp],"l");
   leg_canv->cd();
