@@ -154,6 +154,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   // get run index or fill index if specific run/fill specified
   Int_t specificI=-1;
   Int_t specificFI=-1;
+  Int_t specificRunMatx,specificFillMatx; // (for matx tree)
   Double_t specificT;
   fill=0;
   runnum=0;
@@ -167,6 +168,8 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
         specificFI=fi;
         specificI=index;
         specificT=time;
+        specificRunMatx=runnum;
+        specificFillMatx=fill;
       };
     };
     if(specificFI==-1 && specificI==-1)
@@ -1741,6 +1744,8 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   TTree * matx = new TTree("matx","matx");
   matx->Branch("i",&specificI,"i/I");
   matx->Branch("fi",&specificFI,"fi/I");
+  matx->Branch("runnum",&specificRunMatx,"runnum/I");
+  matx->Branch("fill",&specificFillMatx,"fill/I");
   matx->Branch("t",&specificT,"t/D");
   matx->Branch("tbit",&tbit_set,"tbit/I"); // (see definition above)
   matx->Branch("cbit",&cbit_set,"cbit/I");
