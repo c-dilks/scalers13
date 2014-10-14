@@ -102,6 +102,15 @@ void DrawProjections(const char * numer="zdce",
   };
   asym_dist_all->Draw("same");
 
+  Double_t sigma1 = gaus1->GetParameter(2);
+  Double_t sigma2 = gaus2->GetParameter(2);
+  Double_t sigma = (sigma1>sigma2)?sigma1:sigma2;
+  Double_t mean = asym_dist_all->GetMean();
+  Double_t sys = sigma + fabs(mean);
+  printf("sigma1 = %f\nsigma2 = %f\n",sigma1,sigma2);
+  printf("sigma = %f\nmean = %f\nsystematic = %f\n",sigma,mean,sys);
+
+
   char printname[64];
   if(Nomit==-1) strcpy(printname,"projection.png");
   else sprintf(printname,"projection.omit%d.png",Nomit);
