@@ -36,6 +36,10 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
              Bool_t drawLog=0, Int_t zoomIn=0, 
              Int_t specificFill=0, Int_t specificRun=0)
 {
+  // read polarization file ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  //TFile * polfile = new TFile("pol.root","READ");
+  //TTree * pol_tr = (TTree*) polfile->Get("pol");
+
   // read counts.root file
   TFile * infile = new TFile("counts.root","READ");
   TTree * tr = (TTree*) infile->Get("sca");
@@ -222,7 +226,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
 
 
   // fill polarization data array (only if var=="i")
-  // -- used in systematic error computation -- DEPRECATED
+  // -- used in systematic error computation -- DEPRECATED ++++++++++++++++++++++++++++++++++
   /*
   Float_t polar_b_array[var_bins_const];
   Float_t polar_y_array[var_bins_const];
@@ -786,6 +790,53 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   };
 
 
+  // compute double-spin asymmetry of ratio of zdc yield to vpd yield -- DEPRECATED by bunch fitting!!
+  // -- only if var="i"
+  // -- R_LL := (r++ - r+-) / (r++ + r+-) where r = zdc_mul / vpd_mul
+  // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  /*
+  TH1D * R_LL_d[3]; // [cbit] // systematic uncertainty
+  char R_LL_n[3][128];
+  char R_LL_t[3][128];
+  TH1D * scarat_d[3][4]; // [cbit] [sbit] // zdc_mul / vpd_mul
+  char scarat_n[3][4][128];
+  Double_t mmm_rat[4]; // [sbit]
+  Double_t rrr_rat; 
+  if(!strcmp(var,"i"))
+  {
+    for(Int_t c=0; c<3; c++)
+    {
+      sprintf(R_LL_n[c],"R_LL_%s",cbit[c]);
+      sprintf(R_LL_t[c],"R_{LL}(%s)",cbit[c]);
+      R_LL_d[c] = new TH1D(R_LL_n[c],R_LL_t[c],var_bins,var_l,var_h);
+      for(Int_t s=0; s<4; s++) 
+      {
+        sprintf(scarat_n[c][s],"scarat_d_c%d_s%d",c,s);
+        scarat_d[c][s] = new TH1D(scarat_n[c][s],scarat_n[c][s],var_bins,var_l,var_h);
+      };
+      for(Int_t b=1; b<=var_bins; b++)
+      {
+        for(Int_t s=0; s<4; s++)
+        {
+          mmm_rat[s] = (mul_d[1][c][s]->GetBinContent(b))/(mul_d[2][c][s]->GetBinContent(b)); // zdc / vpd
+          scarat_d[c][s]->SetBinContent(b,mmm_rat[s]);
+          nn_tot[s] = tot_d[s]->GetBinContent(b);
+        };
+        if(nn_tot[0]*nn_tot[1]*nn_tot[2]*nn_tot[3]>0)
+        {
+          rrr_rat = ( (mmm_rat[0]+mmm_rat[3]) - (mmm_rat[1]+mmm_rat[2]) ) / ( (mmm_rat[0]+mmm_rat[3]) + (mmm_rat[1]+mmm_rat[2]) );
+          if(polar_b_array[b-1]*polar_y_array[b-1]>0)
+          {
+            rrr_rat *= 1/(polar_b_array[b-1]*polar_y_array[b-1]); // polarization factor
+            R_LL_d[c]->SetBinContent(b,rrr_rat);
+            //R_LL_d[c]->SetBinError(b,1/(0.55*0.55)*1/sqrt
+          };
+        };
+      };
+    };
+  };
+  */
+
 
 
   // COMPARISONS AND AVERAGES OF RELLUMS --------------------------------------
@@ -979,6 +1030,15 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
     };
   };
 
+  /*
+  if(!strcmp(var,"i")) // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  {
+    for(Int_t c=0; c<3; c++)
+    {
+      R_LL_d[c]->Fit("pol0","Q","",var_l,var_h);
+    };
+  };
+  */
 
   
   // compute rate dependence of correction factors and "compare" plots (comparing mul, raw, and rsc)
@@ -1224,6 +1284,105 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   else sf=1;
 
 
+  // bXing consistency study +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  // -- consider only points in bXing distribution which
+  //    are within 10% of the maximum bin, build a TGraph
+  //    with just those points, and do a fit
+  /*
+  TGraph * cons[3][3][5]; // [tbit] [cbit] [spinbit]
+  TF1 * cons_fit[3][3][5];
+  char cons_fit_n[3][3][5][32];
+  Double_t mul_max[3][3];
+  Int_t cons_cnt[3][3][5];
+  TCanvas * cons_canv[5];
+  char cons_canv_n[5][32];
+  for(Int_t s=0; s<5; s++)
+  {
+    sprintf(cons_canv_n[s],"cons_canv_s%d",s);
+    cons_canv[s] = new TCanvas(cons_canv_n[s],cons_canv_n[s],1100*sf,700*sf);
+  };
+  char cons_canv_print[3][5][64]; // [tbit] [spinbit]
+  TLine * cutoff[3][3][5];
+  Double_t cutoff_val=0.5; // keep only points within maximum * cutoff_val
+  Double_t content;
+  gStyle->SetOptFit(1);
+  if((specificFill>0 || specificRun>0) && !strcmp(var,"bx"))
+  {
+    // get maxima
+    for(Int_t t=0; t<3; t++)
+    {
+      for(Int_t c=0; c<3; c++)
+      {
+        mul_max[t][c] = mul_d[t][c][4]->GetMaximum();
+      };
+    };
+    // loop 
+    for(Int_t s=0; s<5; s++)
+    {
+      for(Int_t t=0; t<3; t++)
+      {
+        if(specificFill>0) sprintf(cons_canv_print[t][s],"cons_pngs/%s_%d_s%d.png",tbit[t],specificFill,s);
+        else if(specificRun>0) sprintf(cons_canv_print[t][s],"cons_pngs/%s_%d_s%d.png",tbit[t],specificRun,s);
+        for(Int_t c=0; c<3; c++)
+        {
+          cons[t][c][s] = new TGraph();
+          cons[t][c][s]->SetMarkerStyle(kFullCircle);
+          if(s==0) cons[t][c][s]->SetMarkerColor(kGreen+2);
+          else if(s==1) cons[t][c][s]->SetMarkerColor(kOrange+7);
+          else if(s==2) cons[t][c][s]->SetMarkerColor(kRed);
+          else if(s==3) cons[t][c][s]->SetMarkerColor(kBlue);
+          else if(s==4) cons[t][c][s]->SetMarkerColor(kBlack);
+          cons_cnt[t][c][s]=0;
+          cutoff[t][c][s] = new TLine(0,mul_max[t][c]*cutoff_val,120,mul_max[t][c]*cutoff_val);
+          cutoff[t][c][s]->SetLineColor(kGreen);
+          for(Int_t bb=1; bb<=mul_d[t][c][s]->GetNbinsX(); bb++)
+          {
+            content = mul_d[t][c][s]->GetBinContent(bb);
+            if(content>(cutoff_val*mul_max[t][c]) && !(bb>=32 && bb<=40) && !(bb>=112))
+            {
+              content /= mul_max[t][c]; // rescale by total max only
+              cons[t][c][s]->SetPoint(cons_cnt[t][c][s],bb-1,content);
+              cons_cnt[t][c][s]++;
+            };
+          };
+          sprintf(cons_fit_n[t][c][s],"cfit_%d_%d_%d",t,c,s);
+          cons_fit[t][c][s] = new TF1(cons_fit_n[t][c][s],"pol0",0,120);
+          cons[t][c][s]->Fit(cons_fit[t][c][s],"","",0,120);
+          gSystem->RedirectOutput("cons_study","a");
+          if(specificFill>0)
+          {
+            printf("%d %d %d %d %f %f\n",specificFill,t,c,s,
+                    cons_fit[t][c][s]->GetParameter(0),cons_fit[t][c][s]->GetParError(0));
+          }
+          else if(specificRun>0)
+          {
+            printf("%d %d %d %d %f %f\n",specificRun,t,c,s,
+                    cons_fit[t][c][s]->GetParameter(0),cons_fit[t][c][s]->GetParError(0));
+          };
+          gSystem->RedirectOutput(0);
+        };
+        cons_canv[s]->Divide(1,3);
+        for(Int_t pad=1; pad<=3; pad++)
+        {
+          cons_canv[s]->cd(pad);
+          cons_canv[s]->GetPad(pad)->SetGrid(1,1);
+          //cons_canv->GetPad(pad)->SetLogy();
+          //cons[t][pad-1][s]->GetYaxis()->SetLimits(mul_max[t][pad-1]*cutoff_val-0.01*mul_max[t][pad-1],
+                                                   //mul_max[t][pad-1]+0.01*mul_max[t][pad-1]);
+          cons[t][pad-1][s]->Draw("ap");
+          cons[t][pad-1][s]->GetYaxis()->SetRangeUser(0.7,1.1);
+          cons[t][pad-1][s]->GetXaxis()->SetLimits(0,120);
+          //cutoff[t][pad-1][s]->Draw();
+        }
+        cons_canv[s]->Print(cons_canv_print[t][s],"png");
+        cons_canv[s]->Clear();
+      };
+    };
+  };
+  */
+
+
+
 
   // DRAW OUTPUT CANVASES
   gStyle->SetOptStat(0);
@@ -1385,6 +1544,19 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
     };
   };
 
+  /*
+  TCanvas * c_R_LL = new TCanvas("c_R_LL","c_R_LL",1100*sf,700*sf);  // ++++++++++++++++++++++++++++++++++++
+  c_R_LL->Divide(1,3);
+  if(!strcmp(var,"i"))
+  {
+    for(Int_t c=0; c<3; c++)
+    {
+      c_R_LL->GetPad(c+1)->SetGrid(1,1);
+      c_R_LL->cd(c+1);
+      R_LL_d[c]->Draw();
+    };
+  };
+  */
 
   TCanvas * c_D[10]; // [rellum]
   char c_D_n[10][32]; // [rellum] [char buffer]
@@ -1632,6 +1804,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
         c_R[t][r]->Write();
       };
     };
+    //if(!strcmp(var,"i")) c_R_LL->Write(); // +++++++++++++++++++++++++++++++++++++++
     for(Int_t r=1; r<10; r++) c_mean[r]->Write();
     for(Int_t r=1; r<10; r++) c_D[r]->Write();
     for(Int_t r=1; r<10; r++) 
@@ -1872,6 +2045,10 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
     rtr->Branch("d_wx_zdc",&(d_xx[2][1]),"d_wx_zdc/F"); // ZDCW - ZDCX
     rtr->Branch("d_wx_vpd",&(d_xx[2][2]),"d_wx_vpd/F"); // VPDW - VPDX
 
+    // rtr->Branch("R_LL_e",&(R_LL[0])); // R_LL = 1/(Pb*Py) * (r++ - r+-)/(r++ + r+-)  // +++++++++++++++++++++++++++++++++
+    // rtr->Branch("R_LL_w",&(R_LL[1])); // where r = mul_zdc / mul_vpd
+    // rtr->Branch("R_LL_x",&(R_LL[2])); 
+    // rtr->Branch("scarat",scarat,"scarat[3][4]/F"); // zdc / vpd [cbit] [sbit]  // +++++++++++++++++++++++++++++
 
     
     for(Int_t b=1; b<=var_bins; b++)
@@ -1895,6 +2072,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
       for(Int_t c=0; c<3; c++)
       {
         d_vz[c] = D_mul_d[c][3]->GetBinContent(b);
+        //R_LL[c] = R_LL_d[c]->GetBinContent(b);  // +++++++++++++++++++++++++++++++++
       };
       for(Int_t t=0; t<3; t++)
       {
@@ -1904,6 +2082,16 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
         };
       };
 
+      // scalar ratios  // ++++++++++++++++++++++++++++++++++++++++=
+      /*
+      for(Int_t c=0; c<3; c++)
+      {
+        for(Int_t s=0; s<4; s++)
+        {
+          scarat[c][s] = scarat_d[c][s]->GetBinContent(b);
+        };
+      };
+      */
 
       rtr->Fill();
     };
