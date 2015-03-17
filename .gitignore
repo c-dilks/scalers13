@@ -4,6 +4,7 @@
 *.swp
 log/*
 datfiles/*
+chanfiles/*
 matrix/rootfiles/*
 pdf_bXings_fills/*
 pdf_bXings_runs/
