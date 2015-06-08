@@ -25,4 +25,4 @@ for file in $(ls $indir); do
   echo >> $f
 done
 
-#condor_submit $f
+condor_submit $f
