@@ -179,17 +179,17 @@ for file in $(ls spinpat/*.spin); do
       #fi
     #done
 # remove 4 after aborts (don't remove any after 69 & 70)
-    for ii in {{0..3},{31..43},{111..119}}; do
-      if [ $bx -eq $ii ]; then
-        grep_result="$fill $bx"
-      fi
-    done
-# remove 5 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..4},{31..44},{111..119}}; do
+    #for ii in {{0..3},{31..43},{111..119}}; do
       #if [ $bx -eq $ii ]; then
         #grep_result="$fill $bx"
       #fi
     #done
+# remove 5 after aborts (don't remove any after 69 & 70)
+    for ii in {{0..4},{31..44},{111..119}}; do
+      if [ $bx -eq $ii ]; then
+        grep_result="$fill $bx"
+      fi
+    done
 # remove 6 after aborts (don't remove any after 69 & 70)
     #for ii in {{0..5},{31..45},{111..119}}; do
       #if [ $bx -eq $ii ]; then
