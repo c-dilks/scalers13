@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
   char outfile[100];
   char outfilechan[100];
   FILE *fout;
-  FILE * foutchan;
+  //FILE * foutchan;
   struct sca_val scaler[128];
   int bunch;
   int chnl_bbc;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
     sprintf(outfile,"datfiles/run%d_%d.dat", hist_hdr_l.runnum,hist_hdr_l.bdnum);
     sprintf(outfilechan,"chanfiles/run%d_%d.dat", hist_hdr_l.runnum,hist_hdr_l.bdnum);
     fout=fopen(outfile,"w");
-    foutchan=fopen(outfilechan,"w");
+    //foutchan=fopen(outfilechan,"w");
 
     // Read Channels and Counts
     for(i=0; i < (hist_hdr_l.num_words / 3) ; i++) {
@@ -119,7 +119,7 @@ int main(int argc, char *argv[]) {
       /*------Analyze Channel------*/
       //Read channel
       bunch = (int) (channel >> 25) & 0x7f;
-      printf("bx=%d\n",bunch);
+      //printf("bx=%d\n",bunch);
       //printf("%d\n",bunch);
       if(bunch < 120)
       {
@@ -138,7 +138,7 @@ int main(int argc, char *argv[]) {
         scaler[bunch].valSum += count;
         //printf("chn_cnt[1]=0x%X chn_cnt[2]=0x%X\n    bx=%d chnl_bbc=%d chnl_zdc=%d chnl_vpd=%d channel=%d count=%d\n",
          // chn_cnt[1],chn_cnt[2],bunch,chnl_bbc,chnl_zdc,chnl_vpd,channel,count);
-        fprintf(foutchan,"%d %d %d %d %lld %lld\n",bunch,chnl_bbc,chnl_zdc,chnl_vpd,channel,count);
+        //fprintf(foutchan,"%d %d %d %d %lld %lld\n",bunch,chnl_bbc,chnl_zdc,chnl_vpd,channel,count);
       }else
       {
         printf("Bunch Crossing %d Out of Range\n",bunch);
@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
   } 
 
   fclose(fout);
-  fclose(foutchan);
+  //fclose(foutchan);
 
   return 0;
 }
