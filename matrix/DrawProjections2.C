@@ -10,7 +10,7 @@ void DrawProjections2(const char * testchar="",
                       const char * numer="zdcx",
                       const char * denom="vpdx")
 {
-  const Int_t NBINS = 50;
+  const Int_t NBINS = 90;
   gStyle->SetOptFit(1);
   char filename[256];
   if(!strcmp(testchar,""))
@@ -24,7 +24,8 @@ void DrawProjections2(const char * testchar="",
   TFile * patfile[8];
   char patfile_n[8][256];
   Int_t pat_arr[8] = {13,14,23,24,31,32,41,42};
-  Color_t colours[8] = {kOrange,kRed,kMagenta,kBlue,kCyan+1,kGreen+1,kYellow+2,kViolet-6}; 
+  //Color_t colours[8] = {kOrange,kRed,kMagenta,kBlue,kCyan+1,kGreen+1,kYellow+2,kViolet-6}; 
+  Color_t colours[8] = {kBlue,kRed,kGreen+1,kMagenta,kBlue,kGreen+1,kRed,kMagenta}; // pairs
   TH1D * hist_pat[8];
   for(Int_t pp=0; pp<8; pp++)
   {
@@ -37,6 +38,7 @@ void DrawProjections2(const char * testchar="",
     hist_pat[pp] = (TH1D*) patfile[pp]->Get("/asymmetry/asym_a3_v_run");
   };
 
+  // bin boundaries
   Double_t LBOUND=10;
   Double_t UBOUND=-10;
   for(Int_t pp=0; pp<8; pp++)
@@ -46,6 +48,8 @@ void DrawProjections2(const char * testchar="",
   };
   //LBOUND -= (UBOUND-LBOUND)*0.05;
   //UBOUND += (UBOUND-LBOUND)*0.05;
+  LBOUND = -0.6e-2; // override
+  UBOUND = 0.6e-2;  // override
   printf("LBOUND=%f UBOUND=%f\n",LBOUND,UBOUND);
 
 
@@ -59,6 +63,8 @@ void DrawProjections2(const char * testchar="",
   //sprintf(asym_dist_all_t,"Run 13 S_{LL} distribution for %s/%s%s",numer,denom,omit_str);
   sprintf(asym_dist_all_t,"Run 13 S_{LL} distribution for rate-safe %s/%s%s",numer,denom,omit_str);
   TH1D * asym_dist_all = new TH1D(asym_dist_all_n,asym_dist_all_t,NBINS,LBOUND,UBOUND);
+  asym_dist_all->SetLineWidth(2);
+  asym_dist_all->SetLineColor(kBlack);
 
   char asym_dist_pat_n[8][256];
   char asym_dist_pat_t[8][256];
@@ -93,12 +99,12 @@ void DrawProjections2(const char * testchar="",
   // run 13 fits (2 gaussians)
   TF1 * gaus1 = new TF1("gaus1","gaus",LBOUND,0);
   TF1 * gaus2 = new TF1("gaus2","gaus",0,UBOUND);
-  asym_dist_all->Fit(gaus1,"","",LBOUND,0);
-  asym_dist_all->Fit(gaus2,"","",0,UBOUND);
-  c1->Close();
+  //asym_dist_all->Fit(gaus1,"","",LBOUND,0);
+  //asym_dist_all->Fit(gaus2,"","",0,UBOUND);
+  //c1->Close();
 
 
-  TCanvas * cc = new TCanvas("cc","cc",1200,600);
+  TCanvas * cc = new TCanvas("cc","cc",1600,400);
   cc->SetGrid(1,0);
   gStyle->SetOptStat(1100);
   gStyle->SetStatFontSize(0.1);
