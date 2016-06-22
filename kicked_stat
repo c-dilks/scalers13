@@ -1,3 +1,9 @@
+fill 17328
+26 25 23 26 2 23
+    3 2 0 3
+fill 17331
+23 26 26 25 0 23
+    0 3 3 2
 fill 17333
 26 25 23 26 2 23
     3 2 0 3
@@ -10,6 +16,9 @@ fill 17340
 fill 17341
 23 26 26 25 0 23
     0 3 3 2
+fill 17344
+25 26 26 23 3 23
+    2 3 3 0
 fill 17345
 25 26 26 23 3 23
     2 3 3 0
@@ -23,6 +32,15 @@ fill 17352
 26 23 25 26 1 23
     3 0 2 3
 fill 17359
+23 26 26 25 0 23
+    0 3 3 2
+fill 17367
+25 26 26 23 3 23
+    2 3 3 0
+fill 17368
+26 25 23 26 2 23
+    3 2 0 3
+fill 17379
 23 26 26 25 0 23
     0 3 3 2
 fill 17380
@@ -67,6 +85,9 @@ fill 17406
 fill 17407
 26 25 23 26 2 23
     3 2 0 3
+fill 17408
+26 24 26 26 1 24
+    2 0 2 2
 fill 17409
 24 26 26 26 0 24
     0 2 2 2
@@ -119,6 +140,9 @@ fill 17451
 fill 17452
 24 26 26 26 0 24
     0 2 2 2
+fill 17453
+26 26 26 24 3 24
+    2 2 2 0
 fill 17454
 26 26 24 26 2 24
     2 2 0 2
@@ -131,6 +155,12 @@ fill 17461
 fill 17479
 26 24 26 26 1 24
     2 0 2 2
+fill 17482
+24 26 26 26 0 24
+    0 2 2 2
+fill 17484
+24 26 26 26 0 24
+    0 2 2 2
 fill 17485
 26 26 26 24 3 24
     2 2 2 0
@@ -150,6 +180,9 @@ fill 17492
 fill 17494
 26 26 24 26 2 24
     2 2 0 2
+fill 17495
+26 24 26 26 1 24
+    2 0 2 2
 fill 17502
 26 26 24 26 2 24
     2 2 0 2
@@ -157,63 +190,31 @@ fill 17503
 26 24 26 26 1 24
     2 0 2 2
 fill 17512
-manually kicked 17512 0 1 -1
-manually kicked 17512 1 1 -1
-manually kicked 17512 40 1 -1
-manually kicked 17512 41 1 -1
-24 26 22 26 2 22
-    2 4 0 4
+24 26 26 26 0 24
+    0 2 2 2
 fill 17513
-manually kicked 17513 0 1 -1
-manually kicked 17513 1 1 -1
-manually kicked 17513 40 1 -1
-manually kicked 17513 41 1 -1
-26 26 22 24 2 22
-    4 4 0 2
+26 26 26 24 3 24
+    2 2 2 0
 fill 17514
-manually kicked 17514 0 1 1
-manually kicked 17514 1 1 1
-manually kicked 17514 40 1 1
-manually kicked 17514 41 1 1
-26 26 24 22 3 22
-    4 4 2 0
+26 26 24 26 2 24
+    2 2 0 2
 fill 17515
-manually kicked 17515 0 -1 -1
-manually kicked 17515 1 -1 -1
-manually kicked 17515 40 -1 -1
-manually kicked 17515 41 -1 -1
-22 24 26 26 0 22
-    0 2 4 4
+26 24 26 26 1 24
+    2 0 2 2
 fill 17517
-manually kicked 17517 0 -1 1
-manually kicked 17517 1 -1 1
-manually kicked 17517 40 -1 1
-manually kicked 17517 41 -1 1
-24 22 26 26 1 22
-    2 0 4 4
+24 26 26 26 0 24
+    0 2 2 2
 fill 17518
-manually kicked 17518 0 -1 1
-manually kicked 17518 1 -1 1
-manually kicked 17518 40 -1 1
-manually kicked 17518 41 -1 1
-26 22 26 24 1 22
-    4 0 4 2
+26 26 26 24 3 24
+    2 2 2 0
 fill 17519
-manually kicked 17519 0 -1 -1
-manually kicked 17519 1 -1 -1
-manually kicked 17519 40 -1 -1
-manually kicked 17519 41 -1 -1
 manually kicked 17519 94 1 -1
 manually kicked 17519 109 -1 1
-22 25 23 26 0 22
-    0 3 1 4
+26 25 23 26 2 23
+    3 2 0 3
 fill 17520
-manually kicked 17520 0 1 1
-manually kicked 17520 1 1 1
-manually kicked 17520 40 1 1
-manually kicked 17520 41 1 1
-26 24 26 22 3 22
-    4 2 4 0
+26 24 26 26 1 24
+    2 0 2 2
 fill 17521
 24 26 26 26 0 24
     0 2 2 2
@@ -241,6 +242,9 @@ manually kicked 17534 112 0 1
 26 24 26 26 1 24
     2 0 2 2
 fill 17536
+24 26 26 26 0 24
+    0 2 2 2
+fill 17538
 24 26 26 26 0 24
     0 2 2 2
 fill 17543

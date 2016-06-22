@@ -140,13 +140,13 @@ for file in $(ls spinpat/*.spin); do
 # BXING SELECTOR; grep_result should be blank if kicked=0
     modeight=$(echo ${bx}%8|bc)
     keepbx=0
-    #for mm in {0,4}; do if [ $mm == $modeight ]; then keepbx=1; fi; done #TEST A
+    for mm in {0,4}; do if [ $mm == $modeight ]; then keepbx=1; fi; done #TEST A
     #for mm in {1,5}; do if [ $mm == $modeight ]; then keepbx=1; fi; done #TEST B
     #for mm in {2,6}; do if [ $mm == $modeight ]; then keepbx=1; fi; done #TEST C
     #for mm in {3,7}; do if [ $mm == $modeight ]; then keepbx=1; fi; done #TEST D
     #for mm in {2,3,6,7}; do if [ $mm == $modeight ]; then keepbx=1; fi; done #TEST E
     #for mm in {1,2,3,5,6,7}; do if [ $mm == $modeight ]; then keepbx=1; fi; done #TEST F
-    keepbx=1 #TEST Z (keep all bXings; control test)
+    #keepbx=1 #TEST Z (keep all bXings; control test)
 
 
     if [ $keepbx -eq 0 ]; then grep_result="$fill $bx"; fi

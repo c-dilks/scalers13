@@ -33,78 +33,79 @@ echo 17554 14 >> kicked_manual
 echo 17555 61 >> kicked_manual
 echo 17576 94 >> kicked_manual
 
+
 # low proton count in post abortgap bXings
-echo 17512 0 >> kicked_manual
-echo 17512 1 >> kicked_manual
-#echo 17512 2 >> kicked_manual
-#echo 17512 3 >> kicked_manual
-echo 17512 40 >> kicked_manual
-echo 17512 41 >> kicked_manual
-#echo 17512 42 >> kicked_manual
-#echo 17512 43 >> kicked_manual
+#echo 17512 0 >> kicked_manual
+#echo 17512 1 >> kicked_manual
+##echo 17512 2 >> kicked_manual
+##echo 17512 3 >> kicked_manual
+#echo 17512 40 >> kicked_manual
+#echo 17512 41 >> kicked_manual
+##echo 17512 42 >> kicked_manual
+##echo 17512 43 >> kicked_manual
 
-echo 17513 0 >> kicked_manual
-echo 17513 1 >> kicked_manual
-#echo 17513 2 >> kicked_manual
-#echo 17513 3 >> kicked_manual
-echo 17513 40 >> kicked_manual
-echo 17513 41 >> kicked_manual
-#echo 17513 42 >> kicked_manual
-#echo 17513 43 >> kicked_manual
+#echo 17513 0 >> kicked_manual
+#echo 17513 1 >> kicked_manual
+##echo 17513 2 >> kicked_manual
+##echo 17513 3 >> kicked_manual
+#echo 17513 40 >> kicked_manual
+#echo 17513 41 >> kicked_manual
+##echo 17513 42 >> kicked_manual
+##echo 17513 43 >> kicked_manual
 
-echo 17514 0 >> kicked_manual
-echo 17514 1 >> kicked_manual
-#echo 17514 2 >> kicked_manual
-#echo 17514 3 >> kicked_manual
-echo 17514 40 >> kicked_manual
-echo 17514 41 >> kicked_manual
-#echo 17514 42 >> kicked_manual
-#echo 17514 43 >> kicked_manual
+#echo 17514 0 >> kicked_manual
+#echo 17514 1 >> kicked_manual
+##echo 17514 2 >> kicked_manual
+##echo 17514 3 >> kicked_manual
+#echo 17514 40 >> kicked_manual
+#echo 17514 41 >> kicked_manual
+##echo 17514 42 >> kicked_manual
+##echo 17514 43 >> kicked_manual
 
-echo 17515 0 >> kicked_manual
-echo 17515 1 >> kicked_manual
-#echo 17515 2 >> kicked_manual
-#echo 17515 3 >> kicked_manual
-echo 17515 40 >> kicked_manual
-echo 17515 41 >> kicked_manual
-#echo 17515 42 >> kicked_manual
-#echo 17515 43 >> kicked_manual
+#echo 17515 0 >> kicked_manual
+#echo 17515 1 >> kicked_manual
+##echo 17515 2 >> kicked_manual
+##echo 17515 3 >> kicked_manual
+#echo 17515 40 >> kicked_manual
+#echo 17515 41 >> kicked_manual
+##echo 17515 42 >> kicked_manual
+##echo 17515 43 >> kicked_manual
 
-echo 17517 0 >> kicked_manual
-echo 17517 1 >> kicked_manual
-#echo 17517 2 >> kicked_manual
-#echo 17517 3 >> kicked_manual
-echo 17517 40 >> kicked_manual
-echo 17517 41 >> kicked_manual
-#echo 17517 42 >> kicked_manual
-#echo 17517 43 >> kicked_manual
+#echo 17517 0 >> kicked_manual
+#echo 17517 1 >> kicked_manual
+##echo 17517 2 >> kicked_manual
+##echo 17517 3 >> kicked_manual
+#echo 17517 40 >> kicked_manual
+#echo 17517 41 >> kicked_manual
+##echo 17517 42 >> kicked_manual
+##echo 17517 43 >> kicked_manual
 
-echo 17518 0 >> kicked_manual
-echo 17518 1 >> kicked_manual
-#echo 17518 2 >> kicked_manual
-#echo 17518 3 >> kicked_manual
-echo 17518 40 >> kicked_manual
-echo 17518 41 >> kicked_manual
-#echo 17518 42 >> kicked_manual
-#echo 17518 43 >> kicked_manual
+#echo 17518 0 >> kicked_manual
+#echo 17518 1 >> kicked_manual
+##echo 17518 2 >> kicked_manual
+##echo 17518 3 >> kicked_manual
+#echo 17518 40 >> kicked_manual
+#echo 17518 41 >> kicked_manual
+##echo 17518 42 >> kicked_manual
+##echo 17518 43 >> kicked_manual
 
-echo 17519 0 >> kicked_manual
-echo 17519 1 >> kicked_manual
-#echo 17519 2 >> kicked_manual
-#echo 17519 3 >> kicked_manual
-echo 17519 40 >> kicked_manual
-echo 17519 41 >> kicked_manual
-#echo 17519 42 >> kicked_manual
-#echo 17519 43 >> kicked_manual
+#echo 17519 0 >> kicked_manual
+#echo 17519 1 >> kicked_manual
+##echo 17519 2 >> kicked_manual
+##echo 17519 3 >> kicked_manual
+#echo 17519 40 >> kicked_manual
+#echo 17519 41 >> kicked_manual
+##echo 17519 42 >> kicked_manual
+##echo 17519 43 >> kicked_manual
 
-echo 17520 0 >> kicked_manual
-echo 17520 1 >> kicked_manual
-#echo 17520 2 >> kicked_manual
-#echo 17520 3 >> kicked_manual
-echo 17520 40 >> kicked_manual
-echo 17520 41 >> kicked_manual
-#echo 17520 42 >> kicked_manual
-#echo 17520 43 >> kicked_manual
+#echo 17520 0 >> kicked_manual
+#echo 17520 1 >> kicked_manual
+##echo 17520 2 >> kicked_manual
+##echo 17520 3 >> kicked_manual
+#echo 17520 40 >> kicked_manual
+#echo 17520 41 >> kicked_manual
+##echo 17520 42 >> kicked_manual
+##echo 17520 43 >> kicked_manual
 
 
 
