@@ -1,4 +1,6 @@
 // draws distribution of asymmetry determined from bunch fit
+// 
+// GENERALLY YOU WANT TO USE THIS VERSION
 //
 // requires the following files, all of which are produced from RunPatterns:
 //  - fit_result.[numer].[denom].root
@@ -8,8 +10,8 @@
 //
 //  - if Nomit = -1 (default value), then it just reads the files from ./
 
-void DrawProjections(const char * numer="zdce",
-                     const char * denom="vpdx",
+void DrawProjections(const char * numer="vpdx",
+                     const char * denom="zdcx",
                      Int_t Nomit=-1)
 {
   const Float_t WIDTH = 4e-3;
@@ -49,6 +51,7 @@ void DrawProjections(const char * numer="zdce",
   //sprintf(asym_dist_all_t,"Run 13 S_{LL} distribution for %s/%s%s",numer,denom,omit_str);
   sprintf(asym_dist_all_t,"Run 13 S_{LL} distribution for rate-safe %s/%s%s",numer,denom,omit_str);
   TH1D * asym_dist_all = new TH1D(asym_dist_all_n,asym_dist_all_t,100,-1*WIDTH,WIDTH);
+  asym_dist_all->SetLineWidth(3);
 
   char asym_dist_pat_n[8][256];
   char asym_dist_pat_t[8][256];
@@ -81,23 +84,37 @@ void DrawProjections(const char * numer="zdce",
   };
 
   // run 13 fits (2 gaussians)
-  TF1 * gaus1 = new TF1("gaus1","gaus",-1*WIDTH,0);
-  TF1 * gaus2 = new TF1("gaus2","gaus",0,WIDTH);
-  asym_dist_all->Fit(gaus1,"","",-1*WIDTH,0);
-  asym_dist_all->Fit(gaus2,"","",0,WIDTH);
+  //TF1 * gaus1 = new TF1("gaus1","gaus",-1*WIDTH,0);
+  //TF1 * gaus2 = new TF1("gaus2","gaus",0,WIDTH);
+  TF1 * twogaus = 
+    new TF1("twogaus","[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)");
+  twogaus->SetParameter(0,80); // normalisation
+  twogaus->SetParameter(3,80); 
+  twogaus->SetParameter(1,0.002); // mean
+  twogaus->SetParameter(4,-0.002); 
+  twogaus->SetParameter(2,0.0005); // sigma
+  twogaus->SetParameter(5,0.0005);
+
+  twogaus->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
+
+  //asym_dist_all->Fit(gaus1,"","",-1*WIDTH,0);
+  //asym_dist_all->Fit(gaus2,"","",0,WIDTH);
+  asym_dist_all->Fit(twogaus,"","",-1*WIDTH,WIDTH);
+
   c1->Close();
 
 
-  TCanvas * cc = new TCanvas("cc","cc",1200,600);
+  TCanvas * cc = new TCanvas("cc","cc",1000,1000);
   cc->SetGrid(1,0);
   gStyle->SetOptStat(1100);
-  gStyle->SetStatFontSize(0.1);
+  //gStyle->SetStatFontSize(0.1);
   Float_t size = 0.05;
   asym_dist_all->GetXaxis()->SetLabelSize(size);
   asym_dist_all->GetYaxis()->SetLabelSize(size);
   asym_dist_all->Draw();
-  gaus1->Draw("same");
-  gaus2->Draw("same");
+  //gaus1->Draw("same");
+  //gaus2->Draw("same");
+  twogaus->Draw("same");
   for(Int_t pp=0; pp<8; pp++)
   {
     asym_dist_pat[pp]->GetXaxis()->SetLabelSize(size);
@@ -106,6 +123,7 @@ void DrawProjections(const char * numer="zdce",
   };
   asym_dist_all->Draw("same");
 
+  /*
   Double_t sigma1 = gaus1->GetParameter(2);
   Double_t sigma2 = gaus2->GetParameter(2);
   Double_t sigma = (sigma1>sigma2)?sigma1:sigma2;
@@ -113,6 +131,7 @@ void DrawProjections(const char * numer="zdce",
   Double_t sys = sigma + fabs(mean);
   printf("sigma1 = %f\nsigma2 = %f\n",sigma1,sigma2);
   printf("sigma = %f\nmean = %f\nsystematic = %f\n",sigma,mean,sys);
+  */ 
 
 
   char printname[64];

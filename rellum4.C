@@ -1055,6 +1055,43 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
     };
   };
 
+  // fit Ddists
+  TF1 * Ddist_rsc_fit[10];
+  TF1 * Ddist_mul_fit[3][10];
+  TString Ddist_rsc_fit_n[10];
+  TString Ddist_mul_fit_n[3][10];
+  for(Int_t r=1; r<10; r++)
+  {
+    Ddist_rsc_fit_n[r] = Form("Ddist_rsc_fit_r%d",r);
+    Ddist_rsc_fit[r] = new TF1(Ddist_rsc_fit_n[r].Data(),"[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)");
+
+    Ddist_rsc_fit[r]->SetParameter(0,80); // normalisation
+    Ddist_rsc_fit[r]->SetParameter(3,80); 
+    Ddist_rsc_fit[r]->SetParameter(1,0.002); // mean
+    Ddist_rsc_fit[r]->SetParameter(4,-0.002); 
+    Ddist_rsc_fit[r]->SetParameter(2,0.0005); // sigma
+    Ddist_rsc_fit[r]->SetParameter(5,0.0005);
+
+    Ddist_rsc_fit[r]->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
+
+    Ddist_rsc_d[r]->Fit(Ddist_rsc_fit[r],"Q","",-1*DIST_BOUND,DIST_BOUND);
+    for(Int_t c=0; c<3; c++)
+    {
+      Ddist_mul_fit_n[c][r] = Form("Ddist_mul_fit_c%d_r%d",c,r);
+      Ddist_mul_fit[c][r] = new TF1(Ddist_mul_fit_n[c][r].Data(),"[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)");
+
+      Ddist_mul_fit[c][r]->SetParameter(0,80); // normalisation
+      Ddist_mul_fit[c][r]->SetParameter(3,80); 
+      Ddist_mul_fit[c][r]->SetParameter(1,0.002); // mean
+      Ddist_mul_fit[c][r]->SetParameter(4,-0.002); 
+      Ddist_mul_fit[c][r]->SetParameter(2,0.0005); // sigma
+      Ddist_mul_fit[c][r]->SetParameter(5,0.0005);
+
+      Ddist_mul_fit[c][r]->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
+
+      Ddist_mul_d[c][r]->Fit(Ddist_mul_fit[c][r],"Q","",-1*DIST_BOUND,DIST_BOUND);
+    };
+  };
 
 
   // compare singles bit combinations (east minus west, east minus coin, west minus coin)

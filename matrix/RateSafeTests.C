@@ -6,8 +6,6 @@ void RateSafeTests(const char * filename="rootfiles/all.root")
   TTree * m = (TTree*) infile->Get("matx");
 
 
-
-
   // open matx tree
   Int_t i,fi,runnum,fill,tbit,cbit,bx;
   Double_t t,raw,acc,mul,fac,rsc,fac2;
