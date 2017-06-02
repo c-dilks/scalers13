@@ -95,7 +95,7 @@ void DrawProjections(const char * numer="vpdx",
   twogaus->SetParameter(2,0.0005); // sigma
   twogaus->SetParameter(5,0.0005);
 
-  twogaus->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
+  twogaus->SetParNames("N_{R}","#mu_{R}","#sigma_{R}","N_{L}","#mu_{L}","#sigma_{L}");
 
   //asym_dist_all->Fit(gaus1,"","",-1*WIDTH,0);
   //asym_dist_all->Fit(gaus2,"","",0,WIDTH);
