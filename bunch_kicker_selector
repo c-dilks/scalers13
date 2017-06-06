@@ -36,75 +36,75 @@ echo 17555 61 >> kicked_manual
 echo 17576 94 >> kicked_manual
 
 # low proton count in post abortgap bXings
-echo 17512 0 >> kicked_manual
-echo 17512 1 >> kicked_manual
+#echo 17512 0 >> kicked_manual
+#echo 17512 1 >> kicked_manual
 #echo 17512 2 >> kicked_manual
 #echo 17512 3 >> kicked_manual
-echo 17512 40 >> kicked_manual
-echo 17512 41 >> kicked_manual
+#echo 17512 40 >> kicked_manual
+#echo 17512 41 >> kicked_manual
 #echo 17512 42 >> kicked_manual
 #echo 17512 43 >> kicked_manual
 
-echo 17513 0 >> kicked_manual
-echo 17513 1 >> kicked_manual
+#echo 17513 0 >> kicked_manual
+#echo 17513 1 >> kicked_manual
 #echo 17513 2 >> kicked_manual
 #echo 17513 3 >> kicked_manual
-echo 17513 40 >> kicked_manual
-echo 17513 41 >> kicked_manual
+#echo 17513 40 >> kicked_manual
+#echo 17513 41 >> kicked_manual
 #echo 17513 42 >> kicked_manual
 #echo 17513 43 >> kicked_manual
 
-echo 17514 0 >> kicked_manual
-echo 17514 1 >> kicked_manual
+#echo 17514 0 >> kicked_manual
+#echo 17514 1 >> kicked_manual
 #echo 17514 2 >> kicked_manual
 #echo 17514 3 >> kicked_manual
-echo 17514 40 >> kicked_manual
-echo 17514 41 >> kicked_manual
+#echo 17514 40 >> kicked_manual
+#echo 17514 41 >> kicked_manual
 #echo 17514 42 >> kicked_manual
 #echo 17514 43 >> kicked_manual
 
-echo 17515 0 >> kicked_manual
-echo 17515 1 >> kicked_manual
+#echo 17515 0 >> kicked_manual
+#echo 17515 1 >> kicked_manual
 #echo 17515 2 >> kicked_manual
 #echo 17515 3 >> kicked_manual
-echo 17515 40 >> kicked_manual
-echo 17515 41 >> kicked_manual
+#echo 17515 40 >> kicked_manual
+#echo 17515 41 >> kicked_manual
 #echo 17515 42 >> kicked_manual
 #echo 17515 43 >> kicked_manual
 
-echo 17517 0 >> kicked_manual
-echo 17517 1 >> kicked_manual
+#echo 17517 0 >> kicked_manual
+#echo 17517 1 >> kicked_manual
 #echo 17517 2 >> kicked_manual
 #echo 17517 3 >> kicked_manual
-echo 17517 40 >> kicked_manual
-echo 17517 41 >> kicked_manual
+#echo 17517 40 >> kicked_manual
+#echo 17517 41 >> kicked_manual
 #echo 17517 42 >> kicked_manual
 #echo 17517 43 >> kicked_manual
 
-echo 17518 0 >> kicked_manual
-echo 17518 1 >> kicked_manual
+#echo 17518 0 >> kicked_manual
+#echo 17518 1 >> kicked_manual
 #echo 17518 2 >> kicked_manual
 #echo 17518 3 >> kicked_manual
-echo 17518 40 >> kicked_manual
-echo 17518 41 >> kicked_manual
+#echo 17518 40 >> kicked_manual
+#echo 17518 41 >> kicked_manual
 #echo 17518 42 >> kicked_manual
 #echo 17518 43 >> kicked_manual
 
-echo 17519 0 >> kicked_manual
-echo 17519 1 >> kicked_manual
+#echo 17519 0 >> kicked_manual
+#echo 17519 1 >> kicked_manual
 #echo 17519 2 >> kicked_manual
 #echo 17519 3 >> kicked_manual
-echo 17519 40 >> kicked_manual
-echo 17519 41 >> kicked_manual
+#echo 17519 40 >> kicked_manual
+#echo 17519 41 >> kicked_manual
 #echo 17519 42 >> kicked_manual
 #echo 17519 43 >> kicked_manual
 
-echo 17520 0 >> kicked_manual
-echo 17520 1 >> kicked_manual
+#echo 17520 0 >> kicked_manual
+#echo 17520 1 >> kicked_manual
 #echo 17520 2 >> kicked_manual
 #echo 17520 3 >> kicked_manual
-echo 17520 40 >> kicked_manual
-echo 17520 41 >> kicked_manual
+#echo 17520 40 >> kicked_manual
+#echo 17520 41 >> kicked_manual
 #echo 17520 42 >> kicked_manual
 #echo 17520 43 >> kicked_manual
 
@@ -138,82 +138,39 @@ for file in $(ls spinpat/*.spin); do
     grep_result=$(grep -w "$fill $bx" kicked_manual)
 
 # -- BXING SELECTOR --
+
 # 24 bXings 
     #if [ $bx -lt 72 -o $bx -gt 103 ]; then
       #grep_result="$fill $bx"
     #fi
-# remove 8 after aborts & 8 after 69&70
-    #for ii in {{0..7},{31..47},{69..78},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 8 before aborts & 8 after 69&70
-    #for ii in {{23..39},{61..70},{103..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 2 after aborts & 2 after 69&70
-    #for ii in {{0..1},{31..41},{69..72},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 2 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..1},{31..41},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 1 after aborts (don't remove any after 69 & 70)
-    #for ii in {0,{31..40},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 3 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..2},{31..42},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 4 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..3},{31..43},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 5 after aborts (don't remove any after 69 & 70)
-    for ii in {{0..4},{31..44},{111..119}}; do
-      if [ $bx -eq $ii ]; then
-        grep_result="$fill $bx"
-      fi
-    done
-# remove 6 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..5},{31..45},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 7 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..6},{31..46},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 8 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..7},{31..47},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
-# remove 9 after aborts (don't remove any after 69 & 70)
-    #for ii in {{0..8},{31..48},{111..119}}; do
-      #if [ $bx -eq $ii ]; then
-        #grep_result="$fill $bx"
-      #fi
-    #done
+
+
+# remove nn bXings after aborts (called postabort bXings)
+# - abort 1:    111 to 119
+# - postabort 1:  0 to nn-1
+# - abort 2:     31 to 39
+# - postabort 2: 40 to (nn-1)+40
+
+let nn=2   ########  <-----
+
+let nend1=nn-1
+let nend2=nend1+40
+
+for ii in {`seq 0 $nend1`,`seq 31 $nend2`,`seq 111 119`}; do
+  if [ $bx -eq $ii ]; then
+    grep_result="$fill $bx"
+  fi
+done
+
+# remove also nn after bxings 69 and 70
+#let nend3=nn+70
+#for ii in `seq 69 $nend3`; do
+  #if [ $bx -eq $ii ]; then
+    #grep_result="$fill $bx"
+  #fi
+#done
+
+
 
 # --------------------
     
@@ -293,4 +250,6 @@ for file in $(ls spinpat/*.spin); do
   fi
 done
 
-rm rand_file_{0,1,2,3}
+if [ $run_randomizer -eq 1 ]; then
+  rm rand_file_{0,1,2,3}
+fi

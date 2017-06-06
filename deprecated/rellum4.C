@@ -36,9 +36,6 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
              Bool_t drawLog=0, Int_t zoomIn=0, 
              Int_t specificFill=0, Int_t specificRun=0)
 {
-
-  Bool_t fitTwoGaussians = true; // uses 2-gaussian fit for deltaR
-  
   // read counts.root file
   TFile * infile = new TFile("counts.root","READ");
   TTree * tr = (TTree*) infile->Get("sca");
@@ -1063,59 +1060,34 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
   TF1 * Ddist_mul_fit[3][10];
   TString Ddist_rsc_fit_n[10];
   TString Ddist_mul_fit_n[3][10];
-  Float_t paramset[6];
-  TString formu;
   for(Int_t r=1; r<10; r++)
   {
-    if(fitTwoGaussians) {
-      paramset[0] = 80; // normalisation
-      paramset[1] = 0.002; // mean
-      paramset[2] = 0.0005; // sigma
-
-      paramset[3] = 80; // norm
-      paramset[4] = -0.002; // mean
-      paramset[5] = 0.0005; // sigma
-
-      formu = 
-       "[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)"; 
-    } else {
-      paramset[0] = 80; // normalisation
-      paramset[1] = 0; // mean
-      paramset[2] = 0.0005; // sigma
-
-      paramset[3] = 0.0; // [ignored]
-      paramset[4] = 0.0; // [ignored]
-      paramset[5] = 0.0; // [ignored]
-
-      formu = 
-       "[0]*exp(-0.5*((x-[1])/[2])^2)"; 
-    };
-
-
     Ddist_rsc_fit_n[r] = Form("Ddist_rsc_fit_r%d",r);
-    Ddist_rsc_fit[r] = new TF1(Ddist_rsc_fit_n[r].Data(),formu.Data());
+    Ddist_rsc_fit[r] = new TF1(Ddist_rsc_fit_n[r].Data(),"[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)");
 
-    for(int pa=0; pa<(fitTwoGaussians?6:3); pa++) 
-      Ddist_rsc_fit[r]->SetParameter(pa,paramset[pa]);
+    Ddist_rsc_fit[r]->SetParameter(0,80); // normalisation
+    Ddist_rsc_fit[r]->SetParameter(3,80); 
+    Ddist_rsc_fit[r]->SetParameter(1,0.002); // mean
+    Ddist_rsc_fit[r]->SetParameter(4,-0.002); 
+    Ddist_rsc_fit[r]->SetParameter(2,0.0005); // sigma
+    Ddist_rsc_fit[r]->SetParameter(5,0.0005);
 
-    if(fitTwoGaussians) 
-      Ddist_rsc_fit[r]->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
-    else
-      Ddist_rsc_fit[r]->SetParNames("N","#mu","#sigma");
+    Ddist_rsc_fit[r]->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
 
     Ddist_rsc_d[r]->Fit(Ddist_rsc_fit[r],"Q","",-1*DIST_BOUND,DIST_BOUND);
     for(Int_t c=0; c<3; c++)
     {
       Ddist_mul_fit_n[c][r] = Form("Ddist_mul_fit_c%d_r%d",c,r);
-      Ddist_mul_fit[c][r] = new TF1(Ddist_mul_fit_n[c][r].Data(),formu.Data());
+      Ddist_mul_fit[c][r] = new TF1(Ddist_mul_fit_n[c][r].Data(),"[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)");
 
-      for(int pa=0; pa<(fitTwoGaussians?6:3); pa++) 
-        Ddist_mul_fit[c][r]->SetParameter(pa,paramset[pa]);
+      Ddist_mul_fit[c][r]->SetParameter(0,80); // normalisation
+      Ddist_mul_fit[c][r]->SetParameter(3,80); 
+      Ddist_mul_fit[c][r]->SetParameter(1,0.002); // mean
+      Ddist_mul_fit[c][r]->SetParameter(4,-0.002); 
+      Ddist_mul_fit[c][r]->SetParameter(2,0.0005); // sigma
+      Ddist_mul_fit[c][r]->SetParameter(5,0.0005);
 
-      if(fitTwoGaussians) 
-        Ddist_mul_fit[c][r]->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
-      else
-        Ddist_mul_fit[c][r]->SetParNames("N","#mu","#sigma");
+      Ddist_mul_fit[c][r]->SetParNames("N_{L}","#mu_{L}","#sigma_{L}","N_{R}","#mu_{R}","#sigma_{R}");
 
       Ddist_mul_d[c][r]->Fit(Ddist_mul_fit[c][r],"Q","",-1*DIST_BOUND,DIST_BOUND);
     };
@@ -2493,7 +2465,6 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
       };
     };
   };
-
+  
   c_Ddist[3]->Print("deltaRdist.png","png");
-
 };
