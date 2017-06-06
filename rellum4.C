@@ -2494,6 +2494,10 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
     };
   };
 
-  c_Ddist[3]->Print("deltaRdist.png","png");
-
+  // for deltaR studies
+  /////////////////////
+  c_Ddist[3]->Print("deltaRdist/img.png","png");
+  TFile * deltaRfile = new TFile("deltaRdist/data.root","RECREATE");
+  for(Int_t r=1; r<10; r++) Ddist_rsc_d[r]->Write();
+  /////////////////////
 };

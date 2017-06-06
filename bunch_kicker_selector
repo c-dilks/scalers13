@@ -151,7 +151,7 @@ for file in $(ls spinpat/*.spin); do
 # - abort 2:     31 to 39
 # - postabort 2: 40 to (nn-1)+40
 
-let nn=2   ########  <-----
+let nn=7   ########  <-----
 
 let nend1=nn-1
 let nend2=nend1+40
