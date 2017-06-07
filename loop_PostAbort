@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for nn in {9..20}; do
+  echo $nn >> ~/tmp/current
+  bunch_kicker_selector $nn
+  accumulate
+  root -b -q rellum4.C
+  pushd deltaRdist && mv img{,_$nn}.png && mv data{,_$nn}.root && popd
+  cp counts.root deltaRdist/counts_${nn}.root && cp rdat_i.root deltaRdist/rdat_${nn}.root
+done
