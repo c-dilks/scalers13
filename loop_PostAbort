@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for nn in {9..20}; do
+for nn in {21..40}; do
   echo $nn >> ~/tmp/current
   bunch_kicker_selector $nn
   accumulate

@@ -37,6 +37,23 @@ void fit(Int_t num_post_aborts=0) {
             num_post_aborts == 18 ||
             num_post_aborts == 19 ||
             num_post_aborts == 20 ||
+            num_post_aborts == 21 ||
+            num_post_aborts == 22 ||
+            num_post_aborts == 23 ||
+            num_post_aborts == 25 ||
+            num_post_aborts == 26 ||
+            num_post_aborts == 27 ||
+            num_post_aborts == 28 ||
+            num_post_aborts == 29 ||
+            num_post_aborts == 30 ||
+            num_post_aborts == 31 ||
+            num_post_aborts == 33 ||
+            num_post_aborts == 34 ||
+            num_post_aborts == 35 ||
+            num_post_aborts == 36 ||
+            num_post_aborts == 37 ||
+            num_post_aborts == 38 ||
+            num_post_aborts == 39 ||
             num_post_aborts == 1000) {
     ngaus = 1;
     paramset[0] = 80; // normalisation
@@ -52,6 +69,9 @@ void fit(Int_t num_post_aborts=0) {
             num_post_aborts == 15 ||
             num_post_aborts == 16 ||
             num_post_aborts == 17 ||
+            num_post_aborts == 24 ||
+            num_post_aborts == 32 ||
+            num_post_aborts == 40 ||
             num_post_aborts == 1000) {
     ngaus = 2;
     paramset[0] = 80; // normalisation
@@ -68,6 +88,9 @@ void fit(Int_t num_post_aborts=0) {
      num_post_aborts==12 ||
      num_post_aborts==18 ||
      num_post_aborts==20 ||
+     num_post_aborts==23 ||
+     num_post_aborts==25 ||
+     num_post_aborts==28 ||
      num_post_aborts==10000) {
     printf("\n\nFIT FAILING\n\n");
     bad = true;

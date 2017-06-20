@@ -1,5 +1,8 @@
 #!/bin/bash
 #
+# YOU MUST SUPPLY AN ARGUMENT WHICH SPECIFIES HOW MANY POST-ABORT GAP BXINGS TO REMOVE
+#
+#
 # SELECTOR: allows you to pick bXings to analyse (search for "SELECTOR" in comments below)
 #
 # first loops through bXing distribution for a fill, counting the number of
@@ -139,11 +142,6 @@ for file in $(ls spinpat/*.spin); do
 
 # -- BXING SELECTOR --
 
-# 24 bXings 
-    #if [ $bx -lt 72 -o $bx -gt 103 ]; then
-      #grep_result="$fill $bx"
-    #fi
-
 
 # remove nn bXings after aborts (called postabort bXings)
 # - abort 1:    111 to 119
@@ -154,10 +152,20 @@ for file in $(ls spinpat/*.spin); do
 nntmp=$(($1))
 let nn=nntmp   ########  <-----
 
-let nend1=nn-1
-let nend2=nend1+40
 
-for ii in {`seq 0 $nend1`,`seq 31 $nend2`,`seq 111 119`}; do
+# post-abort removals
+#let nend1=nn-1
+#let nend2=nend1+40
+#for ii in {`seq 0 $nend1`,`seq 31 $nend2`,`seq 111 119`}; do
+#  if [ $bx -eq $ii ]; then
+#    grep_result="$fill $bx"
+#  fi
+#done
+
+# pre-abort removals
+let nbeg1=31-nn
+let nbeg2=111-nn
+for ii in {`seq $nbeg1 39`,`seq $nbeg2 119`}; do
   if [ $bx -eq $ii ]; then
     grep_result="$fill $bx"
   fi
