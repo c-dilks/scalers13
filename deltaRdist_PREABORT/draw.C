@@ -47,7 +47,7 @@ void draw() {
   mgr->Add(gr2);
   mgr->Add(grBad);
   mgr->SetTitle(
-   "#Delta R_{3} Gaussian Fit Means vs. N_{pa} Omitted Post-Abort bXings;N_{pa};#Delta R_{3} #mu #pm #sigma");
+   "#Delta R_{3} Gaussian Fit Means vs. N_{pa} Omitted Pre-Abort bXings;N_{pa};#Delta R_{3} #mu #pm #sigma");
   
   TCanvas * c = new TCanvas("c","c",1000,600);
   c->SetGrid(1,1);
