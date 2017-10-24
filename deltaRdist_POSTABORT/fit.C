@@ -149,6 +149,7 @@ void fit(Int_t num_post_aborts=0) {
         num_post_aborts,
         bad?-1:0,
         ftn->GetParameter(1),
+        //ftn->GetParError(1)
         ftn->GetParameter(2)
       );
       break;
@@ -157,12 +158,14 @@ void fit(Int_t num_post_aborts=0) {
         num_post_aborts,
         bad?-1:1,
         ftn->GetParameter(1),
+        //ftn->GetParError(1)
         ftn->GetParameter(2)
       );
       printf("%d %d %f %f\n",
         num_post_aborts,
         bad?-1:2,
         ftn->GetParameter(4),
+        //ftn->GetParError(4)
         ftn->GetParameter(5)
       );
       break;
