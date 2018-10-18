@@ -1027,7 +1027,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
 
 
   // make distributions from zdc_minus_vpd
-  const Double_t DIST_BOUND = 8e-3;
+  const Double_t DIST_BOUND = 6e-3;
   char Ddist_mul_n[3][10][128]; // [cbit] [rellum]
   char Ddist_mul_t[3][10][256];
   TH1D * Ddist_mul_d[3][10];
@@ -1103,7 +1103,7 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
     else
       Ddist_rsc_fit[r]->SetParNames("N","#mu","#sigma");
 
-    Ddist_rsc_d[r]->Fit(Ddist_rsc_fit[r],"Q","",-1*DIST_BOUND,DIST_BOUND);
+    Ddist_rsc_d[r]->Fit(Ddist_rsc_fit[r],"Q","",-0.0025,0.0025);
     for(Int_t c=0; c<3; c++)
     {
       Ddist_mul_fit_n[c][r] = Form("Ddist_mul_fit_c%d_r%d",c,r);
@@ -1669,20 +1669,33 @@ void rellum4(const char * var="i",Bool_t printPNGs=0,
 
   TCanvas * c_Ddist[10]; // [rellum]
   char c_Ddist_n[10][32]; // [rellum] [char buffer]
+  Bool_t thesis = true; // if true, only draw RSC (for my thesis)
+  TString axistitle;
   for(Int_t r=1; r<10; r++)
   {
     sprintf(c_Ddist_n[r],"c_dist_of_R%d_zdc_minus_vpd",r);
     c_Ddist[r] = new TCanvas(c_Ddist_n[r],c_Ddist_n[r],1100*sf,940*sf);
-    c_Ddist[r]->Divide(2,2);
-    for(Int_t ccc=1; ccc<=3; ccc++)
-    {
-      c_Ddist[r]->GetPad(ccc)->SetGrid(1,1);
-      c_Ddist[r]->cd(ccc);
-      Ddist_mul_d[ccc-1][r]->Draw();
+    if(!thesis) {
+      c_Ddist[r]->Divide(2,2);
+      for(Int_t ccc=1; ccc<=3; ccc++)
+      {
+        c_Ddist[r]->GetPad(ccc)->SetGrid(1,1);
+        c_Ddist[r]->cd(ccc);
+        Ddist_mul_d[ccc-1][r]->Draw();
+      };
+      c_Ddist[r]->GetPad(4)->SetGrid(1,1);
+      c_Ddist[r]->cd(4);
+      Ddist_rsc_d[r]->Draw();
+    } else {
+      c_Ddist[r]->SetGrid(1,1);
+      axistitle = Form("R_{%d}^{ZDC}-R_{%d}^{VPD}",r,r);
+      Ddist_rsc_d[r]->GetXaxis()->SetTitle(axistitle.Data());
+      Ddist_rsc_d[r]->GetXaxis()->SetTitleSize(0.06);
+      Ddist_rsc_d[r]->GetXaxis()->SetTitleOffset(1.4);
+      gStyle->SetFitFormat(".3g");
+      gStyle->SetStatFormat(".3g");
+      Ddist_rsc_d[r]->Draw();
     };
-    c_Ddist[r]->GetPad(4)->SetGrid(1,1);
-    c_Ddist[r]->cd(4);
-    Ddist_rsc_d[r]->Draw();
   };
 
   TCanvas * c_RD[10]; // [rellum]
