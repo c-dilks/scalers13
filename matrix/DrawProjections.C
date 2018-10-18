@@ -15,7 +15,6 @@ void DrawProjections(const char * numer="vpdx",
                      Int_t Nomit=-1)
 {
   const Float_t WIDTH = 4e-3;
-  gStyle->SetOptFit(1);
   char filename[256];
   if(Nomit==-1)
     sprintf(filename,"fit_result.%s.%s.root",numer,denom);
@@ -40,6 +39,8 @@ void DrawProjections(const char * numer="vpdx",
     patfile[pp] = new TFile(patfile_n[pp],"READ");
     hist_pat[pp] = (TH1D*) patfile[pp]->Get("/asymmetry/asym_a3_v_run");
   };
+
+  TFile * outfile = new TFile("outfile.root","RECREATE");
 
   char omit_str[64];
   if(Nomit==-1) strcpy(omit_str,"");
@@ -104,13 +105,19 @@ void DrawProjections(const char * numer="vpdx",
   c1->Close();
 
 
-  TCanvas * cc = new TCanvas("cc","cc",1000,1000);
+  TCanvas * cc = new TCanvas("cc","cc",1000,500);
   cc->SetGrid(1,0);
   gStyle->SetOptStat(1100);
+  gStyle->SetOptFit(1);
+  gStyle->SetStatFormat(".3g");
+  gStyle->SetFitFormat(".3g");
   //gStyle->SetStatFontSize(0.1);
   Float_t size = 0.05;
   asym_dist_all->GetXaxis()->SetLabelSize(size);
   asym_dist_all->GetYaxis()->SetLabelSize(size);
+  asym_dist_all->GetXaxis()->SetTitle("S_{LL}");
+  asym_dist_all->GetXaxis()->SetTitleSize(0.04);
+  asym_dist_all->GetXaxis()->SetTitleOffset(1.4);
   asym_dist_all->Draw();
   //gaus1->Draw("same");
   //gaus2->Draw("same");
@@ -133,10 +140,12 @@ void DrawProjections(const char * numer="vpdx",
   printf("sigma = %f\nmean = %f\nsystematic = %f\n",sigma,mean,sys);
   */ 
 
+  cc->Write("cc");
+
 
   char printname[64];
-  if(Nomit==-1) strcpy(printname,"projection.png");
-  else sprintf(printname,"projection.omit%d.png",Nomit);
-  cc->Print(printname,"png");
+  if(Nomit==-1) strcpy(printname,"projection.pdf");
+  else sprintf(printname,"projection.omit%d.pdf",Nomit);
+  cc->Print(printname,"pdf");
     
 };

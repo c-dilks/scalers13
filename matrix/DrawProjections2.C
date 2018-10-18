@@ -11,7 +11,6 @@ void DrawProjections2(const char * testchar="",
                       const char * denom="vpdx")
 {
   const Int_t NBINS = 90;
-  gStyle->SetOptFit(1);
   char filename[256];
   if(!strcmp(testchar,""))
     sprintf(filename,"fit_result.%s.%s.root",numer,denom);
@@ -97,17 +96,33 @@ void DrawProjections2(const char * testchar="",
   };
 
   // run 13 fits (2 gaussians)
-  TF1 * gaus1 = new TF1("gaus1","gaus",LBOUND,0);
-  TF1 * gaus2 = new TF1("gaus2","gaus",0,UBOUND);
-  //asym_dist_all->Fit(gaus1,"","",LBOUND,0);
-  //asym_dist_all->Fit(gaus2,"","",0,UBOUND);
-  //c1->Close();
+  //TF1 * gaus1 = new TF1("gaus1","gaus",-1*WIDTH,0);
+  //TF1 * gaus2 = new TF1("gaus2","gaus",0,WIDTH);
+  TF1 * twogaus = 
+    new TF1("twogaus","[0]*exp(-0.5*((x-[1])/[2])^2)+[3]*exp(-0.5*((x-[4])/[5])^2)");
+  twogaus->SetParameter(0,80); // normalisation
+  twogaus->SetParameter(3,80); 
+  twogaus->SetParameter(1,0.002); // mean
+  twogaus->SetParameter(4,-0.002); 
+  twogaus->SetParameter(2,0.0005); // sigma
+  twogaus->SetParameter(5,0.0005);
+
+  twogaus->SetParNames("N_{R}","#mu_{R}","#sigma_{R}","N_{L}","#mu_{L}","#sigma_{L}");
+
+  //asym_dist_all->Fit(gaus1,"","",-1*WIDTH,0);
+  //asym_dist_all->Fit(gaus2,"","",0,WIDTH);
+  asym_dist_all->Fit(twogaus,"","",-1*WIDTH,WIDTH);
+
+  c1->Close();
 
 
-  TCanvas * cc = new TCanvas("cc","cc",1600,400);
+  TCanvas * cc = new TCanvas("cc","cc",800,500);
   cc->SetGrid(1,0);
   gStyle->SetOptStat(1100);
-  gStyle->SetStatFontSize(0.1);
+  gStyle->SetOptFit(1);
+  gStyle->SetStatFormat(".3g");
+  gStyle->SetFitFormat(".3g");
+  //gStyle->SetStatFontSize(0.1);
   Float_t size = 0.05;
   asym_dist_all->GetXaxis()->SetLabelSize(size);
   asym_dist_all->GetYaxis()->SetLabelSize(size);
@@ -132,8 +147,8 @@ void DrawProjections2(const char * testchar="",
 
 
   char printname[64];
-  if(!strcmp(testchar,"")) strcpy(printname,"projection.png");
-  else sprintf(printname,"projection.test%s.png",testchar);
-  cc->Print(printname,"png");
+  if(!strcmp(testchar,"")) strcpy(printname,"projection.pdf");
+  else sprintf(printname,"projection.test%s.pdf",testchar);
+  cc->Print(printname,"pdf");
     
 };
